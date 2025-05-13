@@ -3,6 +3,7 @@ import { Nav } from "../components/ui/nav";
 import styles from "./page.module.css";
 import { TodayNewsSection } from "../components/today-news/today-news-section";
 import { Spacing } from "../components/ui/spacing";
+import { HotNews } from "@/components/today-news/hot-news";
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
       </div>
       <Spacing />
       <TodayNewsSection />
+      <Spacing />   
+      <HotNews />
     </div>
   );
 }
