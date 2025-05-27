@@ -1,18 +1,45 @@
-/** 
+/**
  * @description 상단 네비게이션 바
  */
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const Nav = () => {
   return (
-    <nav className="bg-white w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-blue-600">뉴비</Link>
+    <>
+      <nav
+        style={{
+          background: '#fff',
+          width: '100%',
+          paddingTop: 16,
+          paddingBottom: 16,
+          position: 'fixed',
+          top: 0,
+          zIndex: 100,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: '0 auto', paddingRight: 16 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              height: 64,
+              alignItems: 'center',
+            }}
+          >
+            <Link href="/">
+              <Image
+                src="/newbee.png"
+                width={100}
+                height={100}
+                alt="로고"
+                style={{ objectFit: 'contain', marginBottom: 24, marginTop: 24 }}
+              />
+            </Link>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <div style={{ height: 76 }} />
+    </>
   );
 };

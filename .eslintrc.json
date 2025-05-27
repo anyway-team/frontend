@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next"
-  ],
+  "extends": ["next/core-web-vitals", "next"],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "warn",
@@ -14,4 +11,4 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   }
-} 
+}
