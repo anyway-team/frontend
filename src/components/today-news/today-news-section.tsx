@@ -1,5 +1,6 @@
 import { Button } from '../ui/button';
 import { Section } from '../ui/section';
+import styles from '../common.module.css';
 
 export const TodayNewsSection = () => {
   return (
@@ -28,6 +29,7 @@ const TodayNewsCard = () => {
         borderRadius: '0.5rem',
         padding: '12px',
       }}
+      className={styles.pressable}
     >
       <h3 style={{ fontWeight: 500, fontSize: '0.95rem', lineHeight: 1.2, marginBottom: 8 }}>
         김문수 &quot;당, 단일화 일방적 강요... 사무총장 임명 불발 유감&quot;

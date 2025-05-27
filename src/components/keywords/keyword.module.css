@@ -1,0 +1,10 @@
+.keywordWrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.keywordWrapper::-webkit-scrollbar {
+  display: none;
+}

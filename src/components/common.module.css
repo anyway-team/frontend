@@ -1,0 +1,8 @@
+.pressable {
+  transition: all 0.05s ease-in-out;
+}
+
+.pressable:active {
+  transform: scale(0.96);
+  transition: 0.1s;
+}
