@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const Nav = () => {
+export const HomeNav = () => {
   return (
     <>
       <nav

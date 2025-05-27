@@ -1,10 +1,25 @@
+'use client';
 import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import { Spacing } from '../ui/spacing';
+import { useRouter } from 'next/navigation';
 
 export const HotNews = () => {
+  const router = useRouter();
   return (
-    <Section title="인기 뉴스" action={<Button variant="ghost">더보기</Button>}>
+    <Section
+      title="인기 뉴스"
+      action={
+        <Button
+          variant="ghost"
+          onClick={() => {
+            router.push('/today-news/detail/10');
+          }}
+        >
+          더보기
+        </Button>
+      }
+    >
       <Spacing size={4} />
       <HotNewsCard />
       <HotNewsCard />

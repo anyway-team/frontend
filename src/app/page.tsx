@@ -1,4 +1,4 @@
-import { Nav } from '../components/ui/nav';
+import { HomeNav } from '../components/ui/home-nav';
 import styles from './page.module.css';
 import { TodayNewsSection } from '../components/today-news/today-news-section';
 import { Spacing } from '../components/ui/spacing';
@@ -9,7 +9,7 @@ import { Keywords } from '@/components/keywords';
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Nav />
+      <HomeNav />
       <Keywords />
       <Spacing />
       <TodayNewsSection />
