@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Splide, SplideSlide, SplideRef } from '@splidejs/react-splide';
 import { Spacing } from '@/components/ui/spacing';
-import { NewsSection } from '@/components/common/news-section.tsx';
+import { NewsSection } from '@/components/common/news-section';
 import { useTab } from '@/components/today-news-detail/tabs';
 
 export default function DetailPage() {
