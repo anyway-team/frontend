@@ -8,7 +8,11 @@ interface Props {
 
 export const Tabs = ({ value, onChange }: Props) => {
   return (
-    <RadixTabs.Root defaultValue={value} onValueChange={(value) => onChange(value as TabsValue)}>
+    <RadixTabs.Root
+      defaultValue={value}
+      onValueChange={(value) => onChange(value as TabsValue)}
+      value={value}
+    >
       <RadixTabs.List size="2" color="gray" style={{ margin: '0 24px', display: 'flex' }}>
         {Object.entries(TabsValue).map(([key, value]) => (
           <RadixTabs.Trigger
