@@ -1,5 +1,6 @@
 import { Text } from '@radix-ui/themes/components/callout';
 import { Spacing } from '../ui/spacing';
+import Image from 'next/image';
 
 export interface ReactionItemProps {
   isPositive: boolean;
@@ -7,13 +8,13 @@ export interface ReactionItemProps {
   underline?: boolean;
 }
 
-export interface ReactionSectionProps {
+interface ReactionSectionProps {
   items: ReactionItemProps[];
 }
 
 const ThumbsUp = ({ size = 48 }: { size?: number }) => {
   return (
-    <img
+    <Image
       src="/thumbs-up.svg"
       alt="thumbs up"
       width={size}
@@ -25,7 +26,7 @@ const ThumbsUp = ({ size = 48 }: { size?: number }) => {
 
 const ThumbsDown = ({ size = 48 }: { size?: number }) => {
   return (
-    <img
+    <Image
       src="/thumbs-down.svg"
       alt="thumbs down"
       width={size}
