@@ -32,17 +32,31 @@ export const TodayNewsSection = () => {
         <TodayNewsCard
           title="비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?"
           source="조선일보"
+          onClick={() => {
+            router.push('/today-news/detail/10');
+          }}
         />
         <TodayNewsCard
           title="&lsquo;친윤 당권 제안설&rsquo;에 이준석 &ldquo;저한텐 없었다…호사가들 얘기&rdquo;"
           source="중앙일보"
+          onClick={() => {
+            router.push('/today-news/detail/10');
+          }}
         />
       </div>
     </Section>
   );
 };
 
-const TodayNewsCard = ({ title, source }: { title: string; source: string }) => {
+const TodayNewsCard = ({
+  title,
+  source,
+  onClick,
+}: {
+  title: string;
+  source: string;
+  onClick: () => void;
+}) => {
   return (
     <div
       style={{
@@ -51,6 +65,7 @@ const TodayNewsCard = ({ title, source }: { title: string; source: string }) => 
         padding: '12px',
       }}
       className={styles.pressable}
+      onClick={onClick}
     >
       <h3 style={{ fontWeight: 500, fontSize: '0.95rem', lineHeight: 1.2, marginBottom: 8 }}>
         {title}
