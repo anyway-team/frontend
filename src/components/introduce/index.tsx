@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Brain, MessageSquare, Scale, TrendingUp } from 'lucide-react';
@@ -28,7 +29,14 @@ export function NewsCompareIntro() {
               <br />
               정치색 없는 객관적 분석을 제공합니다
             </p>
-            <Button className={styles.notifyButton}>알림 받기</Button>
+            <Button
+              className={styles.notifyButton}
+              onClick={() => {
+                window.open('https://forms.gle/aMgoi8U9R36rWUoq5', '_blank');
+              }}
+            >
+              알림 받기
+            </Button>
           </div>
         </div>
       </div>
@@ -106,7 +114,14 @@ export function NewsCompareIntro() {
               <p className={styles.ctaDesc}>
                 여러 사이트를 돌아다니며 뉴스를 비교할 필요 없이, 한 곳에서 모든 분석을 확인하세요
               </p>
-              <Button className={styles.notifyButton}>알림 받기</Button>
+              <Button
+                className={styles.notifyButton}
+                onClick={() => {
+                  window.open('https://forms.gle/aMgoi8U9R36rWUoq5', '_blank');
+                }}
+              >
+                알림 받기
+              </Button>
             </div>
           </Card>
         </div>
