@@ -31,7 +31,7 @@ export const HomeNav = () => {
               <Image
                 src="/newbee.png"
                 width={100}
-                height={100}
+                height={60}
                 alt="로고"
                 style={{ objectFit: 'contain', marginBottom: 24, marginTop: 24 }}
               />
