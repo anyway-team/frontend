@@ -1,0 +1,283 @@
+.root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.heroSection {
+  padding: 48px 16px 0 16px;
+  text-align: center;
+}
+.heroInner {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.heroIconWrap {
+  display: flex;
+  justify-content: center;
+}
+.heroIconBg {
+  border-radius: 9999px;
+  background: #222;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heroIcon {
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+.heroTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.heroBadge {
+  background: #e5e7eb;
+  color: #222;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+.heroBadgeIcon {
+  margin-right: 4px;
+  width: 14px;
+  height: 14px;
+  color: #222;
+}
+.heroTitle {
+  font-size: 28px;
+  font-weight: bold;
+  color: #111;
+  line-height: 1.2;
+}
+.heroTitleGradient {
+  background: linear-gradient(90deg, #222 0%, #444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.heroDesc {
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 16px;
+}
+.heroButton {
+  width: 100%;
+  background: #222;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 0;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.heroButton:hover {
+  background: #111;
+}
+.heroButtonIcon {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+}
+
+.featuresSection {
+  padding: 24px 16px 48px 16px;
+}
+.featuresInner {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.featuresTitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 24px;
+}
+.featuresGrid {
+  display: grid;
+  gap: 16px;
+}
+.featureCard {
+  border: none !important;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+}
+.featureCardInner {
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.featureIconWrapBlue {
+  border-radius: 12px;
+  background: #dbeafe;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.featureIconBlue {
+  color: #2563eb;
+  width: 20px;
+  height: 20px;
+}
+.featureIconWrapGreen {
+  border-radius: 12px;
+  background: #bbf7d0;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.featureIconGreen {
+  color: #16a34a;
+  width: 20px;
+  height: 20px;
+}
+.featureIconWrapPurple {
+  border-radius: 12px;
+  background: #ede9fe;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.featureIconPurple {
+  color: #7c3aed;
+  width: 20px;
+  height: 20px;
+}
+.featureIconWrapOrange {
+  border-radius: 12px;
+  background: #ffedd5;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.featureIconOrange {
+  color: #ea580c;
+  width: 20px;
+  height: 20px;
+}
+.featureTextWrap {
+  flex: 1;
+}
+.featureTitle {
+  font-weight: 600;
+  color: #111;
+  font-size: 16px;
+}
+.featureDesc {
+  color: #444;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.ctaSection {
+  padding: 0 16px 48px 16px;
+}
+.ctaInner {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.ctaCard {
+  border: none !important;
+  color: #0e0e0e !important;
+}
+.ctaCardInner {
+  padding: 24px;
+  text-align: center;
+}
+.ctaIcon {
+  margin: 0 auto 12px auto;
+  width: 32px;
+  height: 32px;
+  display: block;
+  color: #272727;
+}
+.ctaTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.ctaDesc {
+  color: #5b5b5b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.ctaButton {
+  width: 100%;
+  background: #fff !important;
+  color: #222 !important;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.ctaButton:hover {
+  background: #f3f4f6 !important;
+}
+
+.statsSection {
+  padding: 0 16px 32px 16px;
+}
+.statsInner {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+.statsValueBlue {
+  color: #2563eb;
+  font-size: 24px;
+  font-weight: bold;
+}
+.statsValueGreen {
+  color: #16a34a;
+  font-size: 24px;
+  font-weight: bold;
+}
+.statsValuePurple {
+  color: #222;
+  font-size: 24px;
+  font-weight: bold;
+}
+.statsLabel {
+  color: #444;
+  font-size: 12px;
+}
+
+.notifyButton {
+  margin-top: 12px;
+  background: #222;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 100%;
+  transition: background 0.2s;
+}
+.notifyButton:hover {
+  background: #111;
+}

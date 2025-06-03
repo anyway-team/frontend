@@ -9,7 +9,7 @@ interface Props {
   content: React.ReactNode;
 }
 
-export const NewsSection = ({ title, source, time, content }: Props) => {
+export function NewsSection({ title, source, time, content }: Props) {
   const { tab, setTab } = useTab();
   return (
     <>
@@ -34,4 +34,4 @@ export const NewsSection = ({ title, source, time, content }: Props) => {
       {content}
     </>
   );
-};
+}

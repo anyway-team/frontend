@@ -1,6 +1,10 @@
+'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export const BottomNavigateBar = () => {
+  const router = useRouter();
+
   return (
     <ul
       style={{
@@ -24,9 +28,13 @@ export const BottomNavigateBar = () => {
         boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
       }}
     >
-      <BottomNavigateBarItem icon="/home.png" label="홈" />
-      <BottomNavigateBarItem icon="/search.png" label="검색" />
-      <BottomNavigateBarItem icon="/my.png" label="마이" />
+      <BottomNavigateBarItem icon="/home.png" label="홈" onClick={() => router.push('/')} />
+      <BottomNavigateBarItem
+        icon="/search.png"
+        label="검색"
+        onClick={() => router.push('/search')}
+      />
+      <BottomNavigateBarItem icon="/my.png" label="마이" onClick={() => router.push('/my')} />
     </ul>
   );
 };
@@ -34,9 +42,11 @@ export const BottomNavigateBar = () => {
 const BottomNavigateBarItem = ({
   icon,
   label,
+  onClick,
 }: {
   icon: string;
   label: string;
+  onClick: () => void;
 }) => {
   return (
     <li
@@ -46,6 +56,7 @@ const BottomNavigateBarItem = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      onClick={onClick}
     >
       <Image src={icon} alt={label} width={24} height={24} />
       <span
