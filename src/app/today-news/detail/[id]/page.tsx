@@ -1,18 +1,20 @@
 'use client';
 import { useRef, useState } from 'react';
 import { Chart } from '@/components/today-news-detail/chart';
-import { Tabs } from '@/components/today-news-detail/tabs';
+
 import { Button } from '@/components/ui/button';
 import { NavigateBar } from '@/components/ui/navigate-bar';
-import { Thumbnail } from '@/components/ui/thumbnail';
+
 import { Tooltip } from '@/components/ui/tooltip';
-import { Avatar, Flex, SegmentedControl, Text } from '@radix-ui/themes';
+import { SegmentedControl, Text } from '@radix-ui/themes';
 import '@splidejs/react-splide/css';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Splide, SplideSlide, SplideRef } from '@splidejs/react-splide';
 import { Spacing } from '@/components/ui/spacing';
+import { NewsSection } from '@/components/common/news-section.tsx';
+import { useTab } from '@/components/today-news-detail/tabs';
 
 export default function DetailPage() {
   const router = useRouter();
@@ -22,6 +24,7 @@ export default function DetailPage() {
   // SegmentedControl 변경 시 슬라이드 이동
   const handleSegmentChange = (value: string) => {
     setSelected(value);
+
     if (splideRef.current) {
       if (value === 'first') splideRef.current.go(0);
       if (value === 'second') splideRef.current.go(1);
@@ -80,68 +83,73 @@ export default function DetailPage() {
 }
 
 const FirstNews = () => {
-  return (
-    <>
-      <Thumbnail url="/sample2.webp" />
-      <div style={{ padding: '12px 24px' }}>
-        <Text size="5" weight="bold" style={{ marginTop: 16 }}>
-          비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은? - BBC News 코리아
-        </Text>
-      </div>
-      <Flex gap="4" align="center" justify="between" style={{ margin: '12px 24px' }}>
-        <Flex gap="2" align="center">
-          <Avatar radius="full" fallback="중" />
-          <Text size="2" weight="bold">
-            중앙일보
-          </Text>
-        </Flex>
-        <Text size="2" color="gray">
-          1시간 전
-        </Text>
-      </Flex>
-      <Tabs />
-      <Tooltip text="AI가 분석한 정치성향" />
+  const { tab } = useTab();
 
-      <Chart 진보={80} 보수={20} />
-      <div style={{ margin: '12px 24px' }}>
-        <Text>
-          AI가 분석한 정치성향을 확인해보세요. 진보 성향이 더 강하다고 판단했어요. 이유는 뉴스
-          내용에 이재명 후보의 개헌 의견이 더 많이 들어가 있기 때문이에요.
-        </Text>
-      </div>
-    </>
+  const tabContent = () => {
+    switch (tab) {
+      case 'political':
+        return (
+          <>
+            <Chart 진보={80} 보수={20} />
+            <div style={{ margin: '12px 24px' }}>
+              <Text>
+                AI가 분석한 정치성향을 확인해보세요. 진보 성향이 더 강하다고 판단했어요. 이유는 뉴스
+                내용에 이재명 후보의 개헌 의견이 더 많이 들어가 있기 때문이에요.
+              </Text>
+            </div>
+          </>
+        );
+      case 'ai-summary':
+        return <div>AI 요약</div>;
+      case 'reaction':
+        return <div>반응</div>;
+      default:
+        return null;
+    }
+  };
+  return (
+    <NewsSection
+      title="비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?"
+      source="중앙일보"
+      time="1시간 전"
+      content={tabContent()}
+    />
   );
 };
 
 const SecondNews = () => {
+  const { tab } = useTab();
+
+  const tabContent = () => {
+    switch (tab) {
+      case 'political':
+        return (
+          <>
+            <Tooltip text="AI가 분석한 정치성향" />
+            <Chart 진보={20} 보수={80} />
+            <div style={{ margin: '12px 24px' }}>
+              <Text>
+                AI가 분석한 정치성향을 확인해보세요. 보수 성향이 더 강하다고 판단했어요. 이유는 뉴스
+                내용에 이준석 후보의 친윤 당권 제안설이 더 많이 들어가 있기 때문이에요.
+              </Text>
+            </div>
+          </>
+        );
+
+      case 'ai-summary':
+        return <div>AI 요약</div>;
+      case 'reaction':
+        return <div>반응</div>;
+      default:
+        return null;
+    }
+  };
   return (
-    <>
-      <Thumbnail url="/sample.jpeg" />
-      <div style={{ padding: '12px 24px' }}>
-        <Text size="5" weight="bold" style={{ marginTop: 16 }}>
-          &lsquo;친윤 당권 제안설&rsquo;에 이준석 &ldquo;저한텐 없었다…호사가들 얘기&rdquo;
-        </Text>
-      </div>
-      <Flex gap="4" align="center" justify="between" style={{ margin: '12px 24px' }}>
-        <Flex gap="2" align="center">
-          <Avatar radius="full" fallback="중" />
-          <Text size="2" weight="bold">
-            중앙일보
-          </Text>
-        </Flex>
-        <Text size="2" color="gray">
-          1시간 전
-        </Text>
-      </Flex>
-      <Tabs />
-      <Tooltip text="AI가 분석한 정치성향" />
-      <Chart 진보={20} 보수={80} />
-      <div style={{ margin: '12px 24px' }}>
-        <Text>
-          AI가 분석한 정치성향을 확인해보세요. 보수 성향이 더 강하다고 판단했어요. 이유는 뉴스
-          내용에 이준석 후보의 친윤 당권 제안설이 더 많이 들어가 있기 때문이에요.
-        </Text>
-      </div>
-    </>
+    <NewsSection
+      title="비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?"
+      source="중앙일보"
+      time="1시간 전"
+      content={tabContent()}
+    />
   );
 };

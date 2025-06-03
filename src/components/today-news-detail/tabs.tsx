@@ -1,34 +1,41 @@
 import { Tabs as RadixTabs } from '@radix-ui/themes';
+import { atom, useAtom } from 'jotai';
 
-export const Tabs = () => {
+interface Props {
+  value: TabsValue;
+  onChange: (value: TabsValue) => void;
+}
+
+export const Tabs = ({ value, onChange }: Props) => {
   return (
-    <RadixTabs.Root defaultValue="Political">
+    <RadixTabs.Root defaultValue={value} onValueChange={(value) => onChange(value as TabsValue)}>
       <RadixTabs.List size="2" color="gray" style={{ margin: '0 24px', display: 'flex' }}>
-        <RadixTabs.Trigger
-          value="Political"
-          style={{
-            flex: 1,
-          }}
-        >
-          정치성향
-        </RadixTabs.Trigger>
-        <RadixTabs.Trigger
-          value="AI Summary"
-          style={{
-            flex: 1,
-          }}
-        >
-          AI 요약
-        </RadixTabs.Trigger>
-        <RadixTabs.Trigger
-          value="Reaction"
-          style={{
-            flex: 1,
-          }}
-        >
-          반응
-        </RadixTabs.Trigger>
+        {Object.entries(TabsValue).map(([key, value]) => (
+          <RadixTabs.Trigger
+            key={key}
+            value={key}
+            style={{
+              flex: 1,
+            }}
+          >
+            {value}
+          </RadixTabs.Trigger>
+        ))}
       </RadixTabs.List>
     </RadixTabs.Root>
   );
 };
+
+const tabAtom = atom<TabsValue>('ai-summary');
+export const useTab = () => {
+  const [tab, setTab] = useAtom(tabAtom);
+  return { tab, setTab };
+};
+
+export const TabsValue = {
+  political: '정치성향',
+  'ai-summary': 'AI 요약',
+  reaction: '반응',
+} as const;
+
+export type TabsValue = keyof typeof TabsValue;
