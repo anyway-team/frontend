@@ -1,33 +1,58 @@
 'use client';
+import { NavigateBar } from '@/components/ui/navigate-bar';
 import styles from './page.module.css';
 import { getTimeAgo } from '@/utils/datetime';
 import Image from 'next/image';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { Spacing } from '@/components/ui/spacing';
 
 export default function RecentNewsPage() {
+  const router = useRouter();
+
   const newsItems: RecentNewsCardProps[] = [
     {
       id: 1,
       title: '비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?',
       press: '중앙일보',
       publishedAt: new Date('2024-05-01'),
-      imageUrl: 'https://picsum.photos/200/300',
+      imageUrl:
+        'https://imgnews.pstatic.net/image/047/2025/06/03/0002476033_001_20250603204709447.jpg?type=w860',
     },
     {
       id: 2,
       title: '비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?',
       press: '중앙일보',
       publishedAt: new Date('2024-05-01'),
-      imageUrl: 'https://picsum.photos/200/300',
+      imageUrl:
+        'https://imgnews.pstatic.net/image/047/2025/06/03/0002476033_001_20250603204709447.jpg?type=w860',
     },
   ];
 
   return (
-    <div className={styles.page}>
-      {newsItems.map((item) => (
-        <RecentNewsCard key={item.id} {...item} />
-      ))}
-    </div>
+    <>
+      <NavigateBar
+        left={
+          <Button variant="ghost">
+            <Image
+              src="/back.png"
+              alt="back"
+              width={24}
+              height={24}
+              onClick={() => router.back()}
+            />
+          </Button>
+        }
+        right={null}
+      />
+      <Spacing size={56} />
+      <div className={styles.page}>
+        {newsItems.map((item) => (
+          <RecentNewsCard key={item.id} {...item} />
+        ))}
+      </div>
+    </>
   );
 }
 

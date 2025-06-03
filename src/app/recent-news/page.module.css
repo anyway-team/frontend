@@ -7,7 +7,8 @@
   --button-secondary-hover: #f2f2f2;
 
   min-height: 100svh;
-  padding: 80px;
+  padding: 16px;
+  padding-top: calc(56px + 16px); /* NavigateBar height (56px) + desired padding */
   gap: 64px;
   font-family: var(--font-geist-sans);
 }
