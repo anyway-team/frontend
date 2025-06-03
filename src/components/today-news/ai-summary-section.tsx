@@ -1,11 +1,11 @@
 import { Tooltip } from '../ui/tooltip';
 import { Text } from '@radix-ui/themes';
 
-interface AiSummarySectionProps {
+interface Props {
   description: string;
 }
 
-export const AiSummarySection = ({ description }: AiSummarySectionProps) => {
+export const AiSummarySection = ({ description }: Props) => {
   return (
     <>
       <Tooltip text={'AI가 요약했어요'} />
