@@ -3,9 +3,51 @@ import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import styles from '../common.module.css';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Skeleton } from '@radix-ui/themes';
 
 export const TodayNewsSection = () => {
   const router = useRouter();
+  const {
+    data: today_comparisons,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['/api/home'],
+    queryFn: async () => {
+      const res = await axios.get('/api/home');
+      return res.data;
+    },
+    select: (data) => {
+      return data.today_comparisons;
+    },
+  });
+
+  /** TODO: 에러 및 로딩 폴백 UI 정의 */
+  if (isLoading)
+    return (
+      <Section title="오늘의 뉴스 비교" action={<></>}>
+        <div style={{ display: 'flex', gap: '12px', padding: '12px 0' }}>
+          <Skeleton
+            style={{
+              height: '126px',
+              width: '50%',
+              borderRadius: '0.5rem',
+            }}
+          />
+          <Skeleton
+            style={{
+              height: '126px',
+              width: '50%',
+              borderRadius: '0.5rem',
+            }}
+          />
+        </div>
+      </Section>
+    );
+  if (error) return null;
+
   return (
     <Section
       title="오늘의 뉴스 비교"
@@ -29,20 +71,24 @@ export const TodayNewsSection = () => {
           paddingBottom: '12px',
         }}
       >
-        <TodayNewsCard
-          title="비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?"
-          source="조선일보"
-          onClick={() => {
-            router.push('/today-news/detail/10');
-          }}
-        />
-        <TodayNewsCard
-          title="&lsquo;친윤 당권 제안설&rsquo;에 이준석 &ldquo;저한텐 없었다…호사가들 얘기&rdquo;"
-          source="중앙일보"
-          onClick={() => {
-            router.push('/today-news/detail/10');
-          }}
-        />
+        {today_comparisons != null ? (
+          <>
+            <TodayNewsCard
+              title={today_comparisons.left_news_preview.title}
+              source={today_comparisons.left_news_preview.publisher}
+              onClick={() => {
+                router.push('/today-news/detail/10');
+              }}
+            />
+            <TodayNewsCard
+              title={today_comparisons.right_news_preview.title}
+              source={today_comparisons.right_news_preview.publisher}
+              onClick={() => {
+                router.push('/today-news/detail/10');
+              }}
+            />
+          </>
+        ) : null}
       </div>
     </Section>
   );
@@ -63,6 +109,9 @@ const TodayNewsCard = ({
         border: '1px solid #e5e7eb',
         borderRadius: '0.5rem',
         padding: '12px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
       className={styles.pressable}
       onClick={onClick}

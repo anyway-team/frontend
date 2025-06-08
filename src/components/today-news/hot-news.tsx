@@ -3,9 +3,42 @@ import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import { Spacing } from '../ui/spacing';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Skeleton } from '@radix-ui/themes';
+import Image from 'next/image';
+
+interface TodayNewsItem {
+  id: string;
+  title: string;
+  published_at: string;
+  thumbnail_url: string;
+  publisher: string;
+}
 
 export const HotNews = () => {
   const router = useRouter();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['/api/home'],
+    queryFn: async () => {
+      const res = await axios.get('/api/home');
+      return res.data;
+    },
+  });
+
+  if (isLoading)
+    return (
+      <Section title="인기 뉴스" action={<></>}>
+        <Spacing size={4} />
+        {[...Array(3)].map((_, i) => (
+          <div key={i} style={{ marginBottom: 12 }}>
+            <Skeleton style={{ width: '100%', height: 80, borderRadius: 8 }} />
+          </div>
+        ))}
+      </Section>
+    );
+  if (error) return null;
+
   return (
     <Section
       title="인기 뉴스"
@@ -21,14 +54,14 @@ export const HotNews = () => {
       }
     >
       <Spacing size={4} />
-      <HotNewsCard />
-      <HotNewsCard />
-      <HotNewsCard />
+      {data?.today_news?.map((news: TodayNewsItem) => (
+        <HotNewsCard key={news.id} news={news} />
+      ))}
     </Section>
   );
 };
 
-const HotNewsCard = () => {
+const HotNewsCard = ({ news }: { news: TodayNewsItem }) => {
   return (
     <div
       style={{
@@ -43,10 +76,13 @@ const HotNewsCard = () => {
         minHeight: '80px',
       }}
     >
-      <div
+      <Image
+        src={news.thumbnail_url}
+        alt={news.title}
+        width={120}
+        height={120}
         style={{
-          width: '120px',
-          height: '120px',
+          objectFit: 'cover',
           background: '#e5e7eb',
           borderRadius: '8px',
           marginRight: '16px',
@@ -61,11 +97,13 @@ const HotNewsCard = () => {
           justifyContent: 'space-between',
         }}
       >
-        <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '8px' }}>
-          뉴스 제목이 들어갑니다
+        <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '8px' }}>{news.title}</div>
+        <div style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '8px' }}>
+          {news.publisher}
         </div>
-        <div style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '8px' }}>조선일보</div>
-        <div style={{ color: '#9ca3af', fontSize: '0.8rem' }}>2024.05.01</div>
+        <div style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
+          {new Date(news.published_at).toLocaleDateString('ko-KR')}
+        </div>
       </div>
     </div>
   );
