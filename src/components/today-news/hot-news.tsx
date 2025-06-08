@@ -46,7 +46,7 @@ export const HotNews = () => {
         <Button
           variant="ghost"
           onClick={() => {
-            router.push('/today-news/detail/10');
+            router.push('/recent-news');
           }}
         >
           더보기
