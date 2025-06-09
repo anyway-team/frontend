@@ -80,14 +80,14 @@ export const handlers = [
     return HttpResponse.json({
       news: [
         {
-          id: 'news-1',
+          id: '550e8400-e29b-41d4-a716-446655440000',
           title: 'AI가 바꿀 미래 일자리',
           published_at: '2024-06-04T09:00:00Z',
           thumbnail_url: '/images/ai.jpg',
           publisher: '경향신문',
         },
         {
-          id: 'news-2',
+          id: '550e8400-e29b-41d4-a716-446655440001',
           title: '부동산 시장, 다시 오를까?',
           published_at: '2024-06-04T08:00:00Z',
           thumbnail_url: '/images/house.jpg',
@@ -99,7 +99,7 @@ export const handlers = [
 
   http.get('https://34.64.170.41/api/news/:id', () => {
     return HttpResponse.json({
-      id: 'news-1',
+      id: '550e8400-e29b-41d4-a716-446655440000',
       title: 'AI가 바꿀 미래 일자리',
       published_at: '2024-06-04T09:00:00Z',
       source: '경향신문',
@@ -120,9 +120,9 @@ export const handlers = [
 
   http.get('https://34.64.170.41/api/news/comparisons/:id', () => {
     return HttpResponse.json({
-      id: 'cmp-1',
+      id: '550e8400-e29b-41d4-a716-446655440088',
       left_news: {
-        id: 'news-1',
+        id: '550e8400-e29b-41d4-a716-446655440000',
         title: '진보 언론: 경제 위기, 정부 대책은?',
         published_at: '2024-06-04T07:00:00Z',
         source: '한겨레',
@@ -136,7 +136,7 @@ export const handlers = [
         bad_comment: '재원 마련 방안이 부족함',
       },
       right_news: {
-        id: 'news-2',
+        id: '550e8400-e29b-41d4-a716-446655440001',
         title: '보수 언론: 경제 위기, 야당 책임론',
         published_at: '2024-06-04T07:00:00Z',
         source: '조선일보',
