@@ -8,18 +8,25 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Spacing } from '@/components/ui/spacing';
 import { useNews } from '@/hooks/useNews';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export default function RecentNewsPage() {
   const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useNews(10);
+  const [shouldFetch, setShouldFetch] = useState(false);
+
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const debouncedShouldFetch = useDebounce(shouldFetch, 300);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
         if (first.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          setShouldFetch(true);
+        } else {
+          setShouldFetch(false);
         }
       },
       { threshold: 0.1 }
@@ -31,6 +38,12 @@ export default function RecentNewsPage() {
 
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    if (debouncedShouldFetch) {
+      fetchNextPage();
+    }
+  }, [debouncedShouldFetch, fetchNextPage, isFetchingNextPage]);
 
   const newsItems = data?.pages.flatMap((page) => page.news) ?? [];
 
