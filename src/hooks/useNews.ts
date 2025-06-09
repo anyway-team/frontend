@@ -1,4 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { newsRepository } from '@/repositories/newsRepository';
+import type { NewsResponse } from '@/repositories/newsRepository';
 
 interface NewsItem {
   id: string;
@@ -8,18 +10,14 @@ interface NewsItem {
   publisher: string;
 }
 
-interface NewsResponse {
-  news: NewsItem[];
-}
-
 interface NewsParams {
   page: number;
   size: number;
   keyword?: string;
 }
 
-const fetchNews = async ({ page, size, keyword }: NewsParams) => {
-  const response = await fetch('https://34.64.170.41/api/news', {
+const fetchNews = async ({ page = 0, size = 10, keyword }: NewsParams) => {
+  const response = await fetch('https://cuteshrew.com/api/news', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,12 +35,13 @@ const fetchNews = async ({ page, size, keyword }: NewsParams) => {
 export function useNews(size: number = 10, keyword?: string) {
   return useInfiniteQuery({
     queryKey: ['news', keyword],
-    queryFn: ({ pageParam = 1 }) => fetchNews({ page: pageParam, size, keyword }),
+    queryFn: ({ pageParam = 0 }) => 
+      newsRepository.getNewsList({ page: pageParam, size, keyword }),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.news.length === 0) {
-        return undefined
+        return undefined;
       }
-      return allPages.length + 1;
+      return allPages.length;
     },
   });
 }
