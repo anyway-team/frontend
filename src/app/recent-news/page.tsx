@@ -47,6 +47,10 @@ export default function RecentNewsPage() {
 
   const newsItems = data?.pages.flatMap((page) => page.news) ?? [];
 
+  const handleNewsClick = (id: string) => {
+    router.push(`/news/${id}`);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -77,6 +81,7 @@ export default function RecentNewsPage() {
             press={item.publisher}
             publishedAt={new Date(item.published_at)}
             imageUrl={item.thumbnail_url}
+            onClick={() => handleNewsClick(item.id)}
           />
         ))}
         <div ref={loadMoreRef} style={{ height: '20px' }} />
@@ -92,6 +97,7 @@ interface RecentNewsCardProps {
   press: string;
   publishedAt: Date;
   imageUrl: string;
+  onClick: () => void;
 }
 
 const Thumbnail = ({ size = 140, imageUrl }: { size?: number; imageUrl: string }) => {
@@ -125,7 +131,14 @@ const Thumbnail = ({ size = 140, imageUrl }: { size?: number; imageUrl: string }
   );
 };
 
-const RecentNewsCard = ({ id, title, press, publishedAt, imageUrl }: RecentNewsCardProps) => {
+const RecentNewsCard = ({
+  id,
+  title,
+  press,
+  publishedAt,
+  imageUrl,
+  onClick,
+}: RecentNewsCardProps) => {
   return (
     <div
       style={{
@@ -137,6 +150,7 @@ const RecentNewsCard = ({ id, title, press, publishedAt, imageUrl }: RecentNewsC
         minHeight: '140px',
         gap: '12px',
       }}
+      onClick={onClick}
     >
       <Thumbnail imageUrl={imageUrl} />
       <div
