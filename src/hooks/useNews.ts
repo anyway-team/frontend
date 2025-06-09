@@ -38,9 +38,11 @@ export function useNews(size: number = 10, keyword?: string) {
   return useInfiniteQuery({
     queryKey: ['news', keyword],
     queryFn: ({ pageParam = 1 }) => fetchNews({ page: pageParam, size, keyword }),
-    getNextPageParam: (_, allPages) => {
-      const nextPage = allPages.length + 1;
-      return nextPage;
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.news.length === 0) {
+        return undefined
+      }
+      return allPages.length + 1;
     },
   });
 }
