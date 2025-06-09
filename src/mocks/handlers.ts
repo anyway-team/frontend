@@ -81,17 +81,17 @@ export const handlers = [
       news: [
         {
           id: '550e8400-e29b-41d4-a716-446655440000',
-          title: 'AI가 바꿀 미래 일자리',
-          published_at: '2024-06-04T09:00:00Z',
-          thumbnail_url: '/images/ai.jpg',
-          publisher: '경향신문',
+          title: '尹 뽑은 유권자 10명 중 4명 "국민의힘, 계엄 반성하고 탄핵 받아들였어야"',
+          published_at: '2025-06-09T09:00:00Z',
+          thumbnail_url: 'https://imgnews.pstatic.net/image/002/2025/06/09/0002392251_001_20250609203310827.jpg?type=w860',
+          publisher: '프레시안',
         },
         {
           id: '550e8400-e29b-41d4-a716-446655440001',
-          title: '부동산 시장, 다시 오를까?',
-          published_at: '2024-06-04T08:00:00Z',
-          thumbnail_url: '/images/house.jpg',
-          publisher: '중앙일보',
+          title: "'이준석 의원직 제명하라' 청원에 동의 폭주‥닷새 만에 40만명 돌파",
+          published_at: '2025-06-09T20:22:00Z',
+          thumbnail_url: 'https://mimgnews.pstatic.net/image/origin/214/2025/06/09/1429134.jpg?type=ofullfill220_150',
+          publisher: 'MBC',
         },
       ],
     });
