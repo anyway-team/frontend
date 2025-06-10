@@ -3,32 +3,57 @@ import { NavigateBar } from '@/components/ui/navigate-bar';
 import styles from './page.module.css';
 import { getTimeAgo } from '@/utils/datetime';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Spacing } from '@/components/ui/spacing';
+import { useNews } from '@/hooks/useNews';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export default function RecentNewsPage() {
   const router = useRouter();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useNews(10);
+  const [shouldFetch, setShouldFetch] = useState(false);
 
-  const newsItems: RecentNewsCardProps[] = [
-    {
-      id: 1,
-      title: '비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?',
-      press: '중앙일보',
-      publishedAt: new Date('2024-05-01'),
-      imageUrl:
-        'https://imgnews.pstatic.net/image/047/2025/06/03/0002476033_001_20250603204709447.jpg?type=w860',
-    },
-    {
-      id: 2,
-      title: '비상경제대응TF, 개헌 등 이재명 대선후보 기자간담회 주요 내용은?',
-      press: '중앙일보',
-      publishedAt: new Date('2024-05-01'),
-      imageUrl:
-        'https://imgnews.pstatic.net/image/047/2025/06/03/0002476033_001_20250603204709447.jpg?type=w860',
-    },
-  ];
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const debouncedShouldFetch = useDebounce(shouldFetch, 300);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          setShouldFetch(true);
+        } else {
+          setShouldFetch(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    if (debouncedShouldFetch) {
+      fetchNextPage();
+    }
+  }, [debouncedShouldFetch, fetchNextPage, isFetchingNextPage]);
+
+  const newsItems = data?.pages.flatMap((page) => page.news) ?? [];
+
+  const handleNewsClick = (id: string) => {
+    router.push(`/news/${id}`);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -49,19 +74,30 @@ export default function RecentNewsPage() {
       <Spacing size={56} />
       <div className={styles.page}>
         {newsItems.map((item) => (
-          <RecentNewsCard key={item.id} {...item} />
+          <RecentNewsCard
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            press={item.publisher}
+            publishedAt={new Date(item.published_at)}
+            imageUrl={item.thumbnail_url}
+            onClick={() => handleNewsClick(item.id)}
+          />
         ))}
+        <div ref={loadMoreRef} style={{ height: '20px' }} />
+        {isFetchingNextPage && <div>불러오는 중...</div>}
       </div>
     </>
   );
 }
 
 interface RecentNewsCardProps {
-  id: number;
+  id: string;
   title: string;
   press: string;
   publishedAt: Date;
   imageUrl: string;
+  onClick: () => void;
 }
 
 const Thumbnail = ({ size = 140, imageUrl }: { size?: number; imageUrl: string }) => {
@@ -95,7 +131,14 @@ const Thumbnail = ({ size = 140, imageUrl }: { size?: number; imageUrl: string }
   );
 };
 
-const RecentNewsCard = ({ title, press, publishedAt, imageUrl }: RecentNewsCardProps) => {
+const RecentNewsCard = ({
+  id,
+  title,
+  press,
+  publishedAt,
+  imageUrl,
+  onClick,
+}: RecentNewsCardProps) => {
   return (
     <div
       style={{
@@ -107,6 +150,7 @@ const RecentNewsCard = ({ title, press, publishedAt, imageUrl }: RecentNewsCardP
         minHeight: '140px',
         gap: '12px',
       }}
+      onClick={onClick}
     >
       <Thumbnail imageUrl={imageUrl} />
       <div

@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'imgnews.pstatic.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'mimgnews.pstatic.net',
+      },
     ],
   },
 };

@@ -80,18 +80,18 @@ export const handlers = [
     return HttpResponse.json({
       news: [
         {
-          id: 'news-1',
-          title: 'AI가 바꿀 미래 일자리',
-          published_at: '2024-06-04T09:00:00Z',
-          thumbnail_url: '/images/ai.jpg',
-          publisher: '경향신문',
+          id: '550e8400-e29b-41d4-a716-446655440000',
+          title: '尹 뽑은 유권자 10명 중 4명 "국민의힘, 계엄 반성하고 탄핵 받아들였어야"',
+          published_at: '2025-06-09T09:00:00Z',
+          thumbnail_url: 'https://imgnews.pstatic.net/image/002/2025/06/09/0002392251_001_20250609203310827.jpg?type=w860',
+          publisher: '프레시안',
         },
         {
-          id: 'news-2',
-          title: '부동산 시장, 다시 오를까?',
-          published_at: '2024-06-04T08:00:00Z',
-          thumbnail_url: '/images/house.jpg',
-          publisher: '중앙일보',
+          id: '550e8400-e29b-41d4-a716-446655440001',
+          title: "'이준석 의원직 제명하라' 청원에 동의 폭주‥닷새 만에 40만명 돌파",
+          published_at: '2025-06-09T20:22:00Z',
+          thumbnail_url: 'https://mimgnews.pstatic.net/image/origin/214/2025/06/09/1429134.jpg?type=ofullfill220_150',
+          publisher: 'MBC',
         },
       ],
     });
@@ -99,7 +99,7 @@ export const handlers = [
 
   http.get('https://34.64.170.41/api/news/:id', () => {
     return HttpResponse.json({
-      id: 'news-1',
+      id: '550e8400-e29b-41d4-a716-446655440000',
       title: 'AI가 바꿀 미래 일자리',
       published_at: '2024-06-04T09:00:00Z',
       source: '경향신문',
@@ -120,9 +120,9 @@ export const handlers = [
 
   http.get('https://34.64.170.41/api/news/comparisons/:id', () => {
     return HttpResponse.json({
-      id: 'cmp-1',
+      id: '550e8400-e29b-41d4-a716-446655440088',
       left_news: {
-        id: 'news-1',
+        id: '550e8400-e29b-41d4-a716-446655440000',
         title: '진보 언론: 경제 위기, 정부 대책은?',
         published_at: '2024-06-04T07:00:00Z',
         source: '한겨레',
@@ -136,7 +136,7 @@ export const handlers = [
         bad_comment: '재원 마련 방안이 부족함',
       },
       right_news: {
-        id: 'news-2',
+        id: '550e8400-e29b-41d4-a716-446655440001',
         title: '보수 언론: 경제 위기, 야당 책임론',
         published_at: '2024-06-04T07:00:00Z',
         source: '조선일보',
