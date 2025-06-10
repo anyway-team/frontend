@@ -28,11 +28,11 @@ export const BottomNavigateBar = () => {
         boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
       }}
     >
-      <BottomNavigateBarItem icon="/home.png" label="홈" onClick={() => router.push('/')} />
+      <BottomNavigateBarItem icon="/home.png" label="홈" onClick={() => router.push('/home')} />
       <BottomNavigateBarItem
-        icon="/search.png"
-        label="검색"
-        onClick={() => router.push('/search')}
+        icon="/premium.png"
+        label="프리미엄"
+        onClick={() => router.push('/recent-news')}
       />
       <BottomNavigateBarItem icon="/my.png" label="마이" onClick={() => router.push('/my')} />
     </ul>
@@ -58,7 +58,7 @@ const BottomNavigateBarItem = ({
       }}
       onClick={onClick}
     >
-      <Image src={icon} alt={label} width={24} height={24} />
+      <Image src={icon} alt={label} width={20} height={20} />
       <span
         style={{
           paddingTop: 4,
