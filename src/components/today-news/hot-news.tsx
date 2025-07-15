@@ -3,11 +3,8 @@ import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import { Spacing } from '../ui/spacing';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
-import { API_ENDPOINTS } from '@/constants/api';
 
 interface TodayNewsItem {
   id: string;
@@ -17,17 +14,15 @@ interface TodayNewsItem {
   publisher: string;
 }
 
-export const HotNews = () => {
-  const router = useRouter();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['/api/home'],
-    queryFn: async () => {
-      const res = await axios.get(API_ENDPOINTS.HOME);
-      return res.data;
-    },
-  });
+interface HotNewsProps {
+  todayNews?: TodayNewsItem[];
+}
 
-  if (isLoading)
+export const HotNews = ({ todayNews }: HotNewsProps) => {
+  const router = useRouter();
+
+  // 데이터가 없을 때는 스켈레톤 표시
+  if (!todayNews) {
     return (
       <Section title="인기 뉴스" action={<></>}>
         <Spacing size={4} />
@@ -38,7 +33,26 @@ export const HotNews = () => {
         ))}
       </Section>
     );
-  if (error) return null;
+  }
+
+  // 뉴스 배열이 비어있을 때는 기본 메시지 표시
+  if (todayNews.length === 0) {
+    return (
+      <Section title="인기 뉴스" action={<></>}>
+        <Spacing size={4} />
+        <div
+          style={{
+            padding: '40px 20px',
+            textAlign: 'center',
+            color: '#6b7280',
+            fontSize: '0.9rem',
+          }}
+        >
+          현재 표시할 뉴스가 없습니다
+        </div>
+      </Section>
+    );
+  }
 
   return (
     <Section
@@ -55,7 +69,7 @@ export const HotNews = () => {
       }
     >
       <Spacing size={4} />
-      {data?.today_news?.map((news: TodayNewsItem) => (
+      {todayNews.map((news: TodayNewsItem) => (
         <HotNewsCard key={news.id} news={news} />
       ))}
     </Section>

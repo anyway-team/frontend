@@ -3,30 +3,35 @@ import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import styles from '../common.module.css';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Skeleton } from '@radix-ui/themes';
-import { API_ENDPOINTS } from '@/constants/api';
 
-export const TodayNewsSection = () => {
+interface TodayComparison {
+  id: string;
+  left_news_preview: {
+    title: string;
+    publisher: string;
+  };
+  right_news_preview: {
+    title: string;
+    publisher: string;
+  };
+}
+
+interface TodayNewsSectionProps {
+  todayComparisons?: TodayComparison;
+}
+
+export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) => {
   const router = useRouter();
-  const {
-    data: today_comparisons,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['/api/home'],
-    queryFn: async () => {
-      const res = await axios.get(API_ENDPOINTS.HOME);
-      return res.data;
-    },
-    select: (data) => {
-      return data.today_comparisons;
-    },
-  });
 
-  /** TODO: 에러 및 로딩 폴백 UI 정의 */
-  if (isLoading)
+  const hasData =
+    todayComparisons?.left_news_preview?.title != null &&
+    todayComparisons?.right_news_preview?.title != null &&
+    todayComparisons?.left_news_preview?.publisher != null &&
+    todayComparisons?.right_news_preview?.publisher != null;
+
+  // 데이터가 없을 때는 스켈레톤 표시
+  if (!hasData) {
     return (
       <Section title="오늘의 뉴스 비교" action={<></>}>
         <div style={{ display: 'flex', gap: '12px', padding: '12px 0' }}>
@@ -47,7 +52,7 @@ export const TodayNewsSection = () => {
         </div>
       </Section>
     );
-  if (error) return null;
+  }
 
   return (
     <Section
@@ -72,24 +77,20 @@ export const TodayNewsSection = () => {
           paddingBottom: '12px',
         }}
       >
-        {today_comparisons != null ? (
-          <>
-            <TodayNewsCard
-              title={today_comparisons.left_news_preview.title}
-              source={today_comparisons.left_news_preview.publisher}
-              onClick={() => {
-                router.push('/today-news/detail/10');
-              }}
-            />
-            <TodayNewsCard
-              title={today_comparisons.right_news_preview.title}
-              source={today_comparisons.right_news_preview.publisher}
-              onClick={() => {
-                router.push('/today-news/detail/10');
-              }}
-            />
-          </>
-        ) : null}
+        <TodayNewsCard
+          title={todayComparisons.left_news_preview.title}
+          source={todayComparisons.left_news_preview.publisher}
+          onClick={() => {
+            router.push('/today-news/detail/10');
+          }}
+        />
+        <TodayNewsCard
+          title={todayComparisons.right_news_preview.title}
+          source={todayComparisons.right_news_preview.publisher}
+          onClick={() => {
+            router.push('/today-news/detail/10');
+          }}
+        />
       </div>
     </Section>
   );
@@ -100,8 +101,8 @@ const TodayNewsCard = ({
   source,
   onClick,
 }: {
-  title: string;
-  source: string;
+  title?: string;
+  source?: string;
   onClick: () => void;
 }) => {
   return (
