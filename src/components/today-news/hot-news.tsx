@@ -5,6 +5,7 @@ import { Spacing } from '../ui/spacing';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
+import router from 'next/router';
 
 interface TodayNewsItem {
   id: string;
@@ -20,6 +21,10 @@ interface HotNewsProps {
 
 export const HotNews = ({ todayNews }: HotNewsProps) => {
   const router = useRouter();
+
+  const handleNewsClick = (id: string) => {
+    router.push(`/news/${id}`);
+  };
 
   // 데이터가 없을 때는 스켈레톤 표시
   if (!todayNews) {
@@ -70,13 +75,13 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
     >
       <Spacing size={4} />
       {todayNews.map((news: TodayNewsItem) => (
-        <HotNewsCard key={news.id} news={news} />
+        <HotNewsCard key={news.id} news={news} onClick={() => handleNewsClick(news.id)} />
       ))}
     </Section>
   );
 };
 
-const HotNewsCard = ({ news }: { news: TodayNewsItem }) => {
+const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => void }) => {
   return (
     <div
       style={{
@@ -90,6 +95,7 @@ const HotNewsCard = ({ news }: { news: TodayNewsItem }) => {
         background: '#fff',
         minHeight: '80px',
       }}
+      onClick={onClick}
     >
       <Image
         src={news.thumbnail_url}
