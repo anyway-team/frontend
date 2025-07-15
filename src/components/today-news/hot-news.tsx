@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
+import { API_ENDPOINTS } from '@/constants/api';
 
 interface TodayNewsItem {
   id: string;
@@ -21,7 +22,7 @@ export const HotNews = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['/api/home'],
     queryFn: async () => {
-      const res = await axios.get('/api/home');
+      const res = await axios.get(API_ENDPOINTS.HOME);
       return res.data;
     },
   });

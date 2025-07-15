@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Skeleton } from '@radix-ui/themes';
+import { API_ENDPOINTS } from '@/constants/api';
 
 export const TodayNewsSection = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const TodayNewsSection = () => {
   } = useQuery({
     queryKey: ['/api/home'],
     queryFn: async () => {
-      const res = await axios.get('/api/home');
+      const res = await axios.get(API_ENDPOINTS.HOME);
       return res.data;
     },
     select: (data) => {
