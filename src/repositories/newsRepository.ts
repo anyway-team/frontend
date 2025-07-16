@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from '@/constants/api';
+import { NewsComparison } from '@/hooks/useNewsComparison';
 
 export interface NewsItem {
   id: string;
@@ -50,7 +51,7 @@ class NewsRepository {
     return response.json();
   }
 
-  async getNewsComparison(id: string) {
+  async getNewsComparison(id: string): Promise<NewsComparison> {
     const response = await fetch(API_ENDPOINTS.NEWS.COMPARISON(id), {
       method: 'GET',
       headers: {
@@ -59,7 +60,7 @@ class NewsRepository {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch news comparison');
+      throw new Error(`Failed to fetch news comparison: ${response.status} ${response.statusText}`);
     }
 
     return response.json();

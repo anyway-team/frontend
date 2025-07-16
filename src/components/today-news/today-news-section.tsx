@@ -28,6 +28,12 @@ interface TodayNewsSectionProps {
 export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) => {
   const router = useRouter();
 
+  const handleNewsClick = () => {
+    const id = todayComparisons?.id;
+    if (!id) return;
+    router.push(`/today-news/detail/${id}`);
+  }
+
   const hasData =
     todayComparisons?.left_news_preview?.title != null &&
     todayComparisons?.right_news_preview?.title != null &&
@@ -64,9 +70,6 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
       action={
         <Button
           variant="ghost"
-          onClick={() => {
-            router.push('/today-news/detail/10');
-          }}
         >
           더보기
         </Button>
@@ -85,17 +88,13 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
           title={todayComparisons.left_news_preview.title}
           source={todayComparisons.left_news_preview.publisher}
           thumbnailUrl={todayComparisons.left_news_preview.thumbnail_url}
-          onClick={() => {
-            router.push('/today-news/detail/10');
-          }}
+          onClick={handleNewsClick}
         />
         <TodayNewsCard
           title={todayComparisons.right_news_preview.title}
           source={todayComparisons.right_news_preview.publisher}
           thumbnailUrl={todayComparisons.right_news_preview.thumbnail_url}
-          onClick={() => {
-            router.push('/today-news/detail/10');
-          }}
+          onClick={handleNewsClick}
         />
       </div>
     </Section>
@@ -137,7 +136,7 @@ const TodayNewsCard = ({
             alt={title || '뉴스 이미지'}
             width={200}
             height={60}
-            style={{ 
+            style={{
               objectFit: 'cover',
               width: '100%',
               height: '100%'
@@ -147,10 +146,10 @@ const TodayNewsCard = ({
           />
         </div>
       ) : (
-        <div 
-          style={{ 
-            marginBottom: '8px', 
-            height: '60px', 
+        <div
+          style={{
+            marginBottom: '8px',
+            height: '60px',
             backgroundColor: '#f3f4f6',
             borderRadius: '4px',
             display: 'flex',
@@ -163,7 +162,7 @@ const TodayNewsCard = ({
           이미지 없음
         </div>
       )}
-      
+
       <div style={{ flex: 1 }}>
         <h3 style={{ fontWeight: 500, fontSize: '0.85rem', lineHeight: 1.2, marginBottom: 4 }}>
           {title}
