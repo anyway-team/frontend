@@ -3,13 +3,18 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function Chart({ 진보, 보수 }: { 진보: number; 보수: number }) {
+interface ChartProps {
+  progressive: number;
+  conservative: number;
+}
+
+export function Chart({ progressive, conservative }: ChartProps) {
   const data = {
     labels: ['보수', '진보'],
     datasets: [
       {
         label: '정치성향',
-        data: [보수, 진보],
+        data: [conservative, progressive],
         backgroundColor: ['rgb(245, 29, 29)', 'rgb(20, 161, 255)'],
       },
     ],

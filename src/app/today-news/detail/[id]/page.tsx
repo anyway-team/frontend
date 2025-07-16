@@ -19,20 +19,36 @@ import { AiSummarySection } from '@/components/today-news/ai-summary-section';
 import { ReactionItemProps, ReactionSection } from '@/components/today-news/reaction-section';
 import { News, NewsComparison, useNewsComparison } from '@/hooks/useNewsComparison';
 
+type SelectedSlide = 'first' | 'second';
+
+interface DetailPageParams {
+  id: string;
+  [key: string]: string | string[] | undefined;
+}
+
 export default function DetailPage() {
   const router = useRouter();
   const splideRef = useRef<SplideRef>(null);
-  const [selected, setSelected] = useState('first');
-  const { id } = useParams();
-  const { data: newsComparison, isLoading, error } = useNewsComparison(id as string);
+  const [selected, setSelected] = useState<SelectedSlide>('first');
+  const params = useParams<DetailPageParams>();
+  
+  // 안전한 타입 체크 및 검증
+  const newsId = params?.id;
+  
+  if (!newsId) {
+    return <div>올바르지 않은 뉴스 ID입니다.</div>;
+  }
+  
+  const { data: newsComparison, isLoading, error } = useNewsComparison(newsId);
 
   // SegmentedControl 변경 시 슬라이드 이동
   const handleSegmentChange = (value: string) => {
-    setSelected(value);
+    if (value === 'first' || value === 'second') {
+      setSelected(value);
 
-    if (splideRef.current) {
-      if (value === 'first') splideRef.current.go(0);
-      if (value === 'second') splideRef.current.go(1);
+      if (splideRef.current) {
+        splideRef.current.go(value === 'first' ? 0 : 1);
+      }
     }
   };
 
@@ -41,7 +57,12 @@ export default function DetailPage() {
   }
 
   if (error) {
-    return <div>Error: 페이지 로딩에 실패했습니다.</div>;
+    console.error('News comparison fetch error:', error);
+    return <div>Error: 페이지 로딩에 실패했습니다. ({error.message})</div>;
+  }
+
+  if (!newsComparison) {
+    return <div>뉴스 비교 데이터를 찾을 수 없습니다.</div>;
   }
 
   return (
@@ -51,7 +72,7 @@ export default function DetailPage() {
           <Button variant="ghost">
             <Image
               src="/back.png"
-              alt="back"
+              alt="뒤로 가기"
               width={24}
               height={24}
               onClick={() => router.back()}
@@ -60,24 +81,23 @@ export default function DetailPage() {
         }
         right={
           <Button variant="ghost">
-            <Image src="/share.png" alt="share" width={22} height={22} />
+            <Image src="/share.png" alt="공유하기" width={22} height={22} />
           </Button>
         }
       />
       <Splide
-        aria-label="My Favorite Images"
+        aria-label="뉴스 비교 슬라이드"
         options={{ arrows: false, pagination: false }}
         ref={splideRef}
-        /** splide 에서 타입을 제공하지 않아서 직접 정의 필요 */
         onMoved={(_: unknown, newIndex: number) => {
           setSelected(newIndex === 0 ? 'first' : 'second');
         }}
       >
         <SplideSlide>
-          <NewsPage news={newsComparison?.left_news} />
+          <NewsPage news={newsComparison.left_news} />
         </SplideSlide>
         <SplideSlide>
-          <NewsPage news={newsComparison?.right_news} />
+          <NewsPage news={newsComparison.right_news} />
         </SplideSlide>
       </Splide>
       <Spacing size={100} />
@@ -95,19 +115,25 @@ export default function DetailPage() {
   );
 }
 
-const NewsPage = ({ news }: { news: News}) => {
+// NewsPage 컴포넌트의 타입 안전성 개선
+interface NewsPageProps {
+  news: News;
+}
+
+const NewsPage = ({ news }: NewsPageProps) => {
   const { tab } = useTab();
 
-  const aiSummaryDescription = news.summary.join('');
+  // 안전한 배열 처리
+  const aiSummaryDescription = news.summary?.join('') || '요약 정보가 없습니다.';
 
   const reactions: ReactionItemProps[] = [
     {
       isPositive: true,
-      description: news.good_comment,
+      description: news.good_comment || '긍정적인 반응이 없습니다.',
     },
     {
       isPositive: false,
-      description: news.bad_comment,
+      description: news.bad_comment || '부정적인 반응이 없습니다.',
     },
   ];
 
@@ -117,12 +143,15 @@ const NewsPage = ({ news }: { news: News}) => {
         return (
           <>
             <Tooltip text="AI가 분석한 정치성향" />
-            <Chart 진보={news.bias_score.progressive} 보수={news.bias_score.conservative} />
+            <Chart 
+              progressive={news.bias_score?.progressive || 0} 
+              conservative={news.bias_score?.conservative || 0} 
+            />
             <div style={{ margin: '12px 24px' }}>
-              <Text>{news.bias_score.reason}</Text>
+              <Text>{news.bias_score?.reason || '분석 정보가 없습니다.'}</Text>
             </div>
           </>
-        )
+        );
       case 'ai-summary':
         return <AiSummarySection description={aiSummaryDescription} />;
       case 'reaction':
@@ -130,16 +159,15 @@ const NewsPage = ({ news }: { news: News}) => {
       default:
         return null;
     }
-  }
-
+  };
 
   return (
     <NewsSection
       thumbnail={news.thumbnail_url || ''}
-      title={news.title}
-      source={news.source}
-      time={news.published_at}
+      title={news.title || '제목 없음'}
+      source={news.source || '출처 미상'}
+      time={news.published_at || ''}
       content={tabContent()}
     />
-  )
-}
+  );
+};

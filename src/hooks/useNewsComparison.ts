@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { newsRepository } from '@/repositories/newsRepository';
 
 interface NewsComparison {
@@ -23,7 +23,7 @@ interface News {
   bad_comment: string;
 }
 
-function useNewsComparison(id: string) {
+function useNewsComparison(id: string): UseQueryResult<NewsComparison, Error> {
   return useQuery({
     queryKey: ['news', 'comparison', id],
     queryFn: () => newsRepository.getNewsComparison(id),
