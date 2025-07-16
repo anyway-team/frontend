@@ -17,8 +17,9 @@ import { NewsSection } from '@/components/common/news-section';
 import { useTab } from '@/components/today-news-detail/tabs';
 import { AiSummarySection } from '@/components/today-news/ai-summary-section';
 import { ReactionItemProps, ReactionSection } from '@/components/today-news/reaction-section';
-import { News, NewsComparison, useNewsComparison } from '@/hooks/useNewsComparison';
+import { News, useNewsComparison } from '@/hooks/useNewsComparison';
 import { formatDateTime } from '@/utils/datetime';
+import { toast } from 'sonner';
 
 type SelectedSlide = 'first' | 'second';
 
@@ -53,6 +54,14 @@ export default function DetailPage() {
     }
   };
 
+  const handleShare = () => {
+    if (!newsComparison) return;
+    const currentNews = selected === 'first' ? newsComparison.left_news : newsComparison.right_news;
+    const url = currentNews.origin_url;
+    navigator.clipboard.writeText(url);
+    toast.success('원본 뉴스 기사의 URL이 복사되었습니다.');
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -81,7 +90,7 @@ export default function DetailPage() {
           </Button>
         }
         right={
-          <Button variant="ghost">
+          <Button variant="ghost" onClick={() => handleShare()}>
             <Image src="/share.png" alt="공유하기" width={22} height={22} />
           </Button>
         }

@@ -21,6 +21,7 @@ interface News {
   };
   good_comment: string;
   bad_comment: string;
+  origin_url: string;
 }
 
 function useNewsComparison(id: string): UseQueryResult<NewsComparison, Error> {

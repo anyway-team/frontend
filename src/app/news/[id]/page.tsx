@@ -13,12 +13,20 @@ import { Spacing } from '@/components/ui/spacing';
 import { useNewsDetail } from '@/hooks/useNewsDetail';
 import { NewsSection } from '@/components/common/news-section';
 import { formatDateTime } from '@/utils/datetime';
+import { toast } from 'sonner';
 
 export default function NewsDetailPage() {
   const router = useRouter();
   const { id } = useParams();
   const { data: newsDetail, isLoading, error } = useNewsDetail(id as string);
   const { tab } = useTab();
+
+  const handleShare = () => {
+    if (!newsDetail) return;
+    const url = newsDetail.origin_url;
+    navigator.clipboard.writeText(url);
+    toast.success('원본 뉴스 기사의 URL이 복사되었습니다.');
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -82,8 +90,16 @@ export default function NewsDetailPage() {
           </Button>
         }
         right={
-          <Button variant="ghost">
-            <Image src="/share.png" alt="공유하기" width={22} height={22} />
+          <Button
+            variant="ghost"
+            onClick={handleShare}
+          >
+            <Image
+              src="/share.png"
+              alt="공유하기"
+              width={22}
+              height={22}
+            />
           </Button>
         }
       />
