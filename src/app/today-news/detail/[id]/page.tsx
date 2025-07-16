@@ -18,6 +18,7 @@ import { useTab } from '@/components/today-news-detail/tabs';
 import { AiSummarySection } from '@/components/today-news/ai-summary-section';
 import { ReactionItemProps, ReactionSection } from '@/components/today-news/reaction-section';
 import { News, NewsComparison, useNewsComparison } from '@/hooks/useNewsComparison';
+import { formatDateTime } from '@/utils/datetime';
 
 type SelectedSlide = 'first' | 'second';
 
@@ -166,7 +167,7 @@ const NewsPage = ({ news }: NewsPageProps) => {
       thumbnail={news.thumbnail_url || ''}
       title={news.title || '제목 없음'}
       source={news.source || '출처 미상'}
-      time={news.published_at || ''}
+      time={formatDateTime(news.published_at) || '날짜 정보 없음'}
       content={tabContent()}
     />
   );

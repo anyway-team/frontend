@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
 import { useState } from 'react';
+import { formatDateTime } from '@/utils/datetime';
 
 interface TodayNewsItem {
   id: string;
@@ -88,54 +89,50 @@ const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => vo
     <div
       style={{
         display: 'flex',
-        flexDirection: 'row',
         alignItems: 'stretch',
-        border: '1px solid #e5e7eb',
-        borderRadius: '8px',
-        padding: '12px',
         marginBottom: '12px',
         background: '#fff',
-        minHeight: '80px',
+        minHeight: '120px',
+        gap: '12px',
+        cursor: 'pointer',
       }}
       onClick={onClick}
     >
-      {/* 썸네일 이미지 또는 fallback */}
-      {!imageError && news.thumbnail_url ? (
-        <Image
-          src={news.thumbnail_url}
-          alt={news.title}
-          width={120}
-          height={120}
-          style={{
-            objectFit: 'cover',
-            background: '#e5e7eb',
-            borderRadius: '8px',
-            marginRight: '16px',
-            flexShrink: 0,
-          }}
-          onError={() => setImageError(true)}
-          unoptimized
-        />
+      {/* 썸네일 이미지 */}
+      {news.thumbnail_url && !imageError ? (
+        <div style={{ width: '120px', height: '120px', borderRadius: '8px', overflow: 'hidden' }}>
+          <Image
+            src={news.thumbnail_url}
+            alt={news.title}
+            width={120}
+            height={120}
+            style={{
+              objectFit: 'cover',
+              width: '100%',
+              height: '100%',
+            }}
+            onError={() => setImageError(true)}
+            unoptimized
+          />
+        </div>
       ) : (
         <div
           style={{
             width: '120px',
-            height: '80px',
+            height: '120px',
             backgroundColor: '#f3f4f6',
             borderRadius: '8px',
-            marginRight: '16px',
-            flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#9ca3af',
-            fontSize: '0.8rem',
           }}
         >
           이미지 없음
         </div>
       )}
-      
+
+      {/* 뉴스 정보 */}
       <div
         style={{
           flex: 1,
@@ -149,7 +146,7 @@ const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => vo
           {news.publisher}
         </div>
         <div style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
-          {new Date(news.published_at).toLocaleDateString('ko-KR')}
+          {formatDateTime(news.published_at)}
         </div>
       </div>
     </div>

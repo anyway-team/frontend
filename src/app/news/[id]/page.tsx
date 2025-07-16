@@ -1,31 +1,31 @@
 'use client';
-import { useParams } from 'next/navigation';
-import { useNewsDetail } from '@/hooks/useNewsDetail';
-import { NavigateBar } from '@/components/ui/navigate-bar';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Spacing } from '@/components/ui/spacing';
-import { NewsSection } from '@/components/common/news-section';
-import { useTab } from '@/components/today-news-detail/tabs';
+import { useParams, useRouter } from 'next/navigation';
 import { Chart } from '@/components/today-news-detail/chart';
+import { useTab } from '@/components/today-news-detail/tabs';
+import { AiSummarySection } from '@/components/today-news/ai-summary-section';
+import { Button } from '@/components/ui/button';
+import { NavigateBar } from '@/components/ui/navigate-bar';
+import { ReactionSection } from '@/components/today-news/reaction-section';
 import { Tooltip } from '@/components/ui/tooltip';
 import { Text } from '@radix-ui/themes';
-import { AiSummarySection } from '@/components/today-news/ai-summary-section';
-import { ReactionSection } from '@/components/today-news/reaction-section';
+import Image from 'next/image';
+import { Spacing } from '@/components/ui/spacing';
+import { useNewsDetail } from '@/hooks/useNewsDetail';
+import { NewsSection } from '@/components/common/news-section';
+import { formatDateTime } from '@/utils/datetime';
 
 export default function NewsDetailPage() {
   const router = useRouter();
   const { id } = useParams();
-  const { data: newsDetail, isLoading } = useNewsDetail(id as string);
+  const { data: newsDetail, isLoading, error } = useNewsDetail(id as string);
   const { tab } = useTab();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!newsDetail) {
-    return <div>News not found</div>;
+  if (error || !newsDetail) {
+    return <div>Error: 뉴스를 불러올 수 없습니다.</div>;
   }
 
   const tabContent = () => {
@@ -36,8 +36,8 @@ export default function NewsDetailPage() {
             <Tooltip text="AI가 분석한 정치성향" />
             {newsDetail.bias_score && (
               <Chart
-                진보={newsDetail.bias_score.progressive}
-                보수={newsDetail.bias_score.conservative}
+                progressive={newsDetail.bias_score.progressive}
+                conservative={newsDetail.bias_score.conservative}
               />
             )}
             <div style={{ margin: '12px 24px' }}>
@@ -74,7 +74,7 @@ export default function NewsDetailPage() {
           <Button variant="ghost">
             <Image
               src="/back.png"
-              alt="back"
+              alt="뒤로 가기"
               width={24}
               height={24}
               onClick={() => router.back()}
@@ -83,7 +83,7 @@ export default function NewsDetailPage() {
         }
         right={
           <Button variant="ghost">
-            <Image src="/share.png" alt="share" width={22} height={22} />
+            <Image src="/share.png" alt="공유하기" width={22} height={22} />
           </Button>
         }
       />
@@ -91,7 +91,7 @@ export default function NewsDetailPage() {
       <NewsSection
         title={newsDetail.title}
         source={newsDetail.source}
-        time={newsDetail.published_at}
+        time={formatDateTime(newsDetail.published_at)}
         content={tabContent()}
         thumbnail={newsDetail.thumbnail_url || ''}
       />
