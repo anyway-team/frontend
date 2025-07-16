@@ -56,7 +56,7 @@ export const ReactionSection = ({ items }: ReactionSectionProps) => {
   return (
     <div>
       {items.map((item, index) => (
-        <ReactionItem key={item.description} {...item} underline={index !== items.length - 1} />
+        <ReactionItem key={index} {...item} underline={index !== items.length - 1} />
       ))}
     </div>
   );

@@ -3,20 +3,15 @@
 import { Badge } from '../ui/badge';
 import styles from './keyword.module.css';
 import commonStyles from '../common.module.css';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Skeleton } from '@radix-ui/themes';
 
-export const Keywords = () => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['/api/home'],
-    queryFn: async () => {
-      const res = await axios.get('/api/home');
-      return res.data;
-    },
-  });
+interface KeywordsProps {
+  keywords?: string[];
+}
 
-  if (isLoading)
+export const Keywords = ({ keywords }: KeywordsProps) => {
+  // 데이터가 없을 때는 스켈레톤 표시
+  if (!keywords) {
     return (
       <div
         style={{
@@ -40,7 +35,29 @@ export const Keywords = () => {
         ))}
       </div>
     );
-  if (error) return <div>에러 발생</div>;
+  }
+
+  // 키워드 배열이 비어있을 때는 기본 메시지 표시
+  if (keywords.length === 0) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          padding: '16px',
+          color: '#6b7280',
+          fontSize: '0.9rem',
+        }}
+        className={styles.keywordWrapper}
+      >
+        인기 키워드를 불러올 수 없습니다
+      </div>
+    );
+  }
 
   return (
     <div
@@ -54,7 +71,7 @@ export const Keywords = () => {
       }}
       className={styles.keywordWrapper}
     >
-      {data?.hot_keywords?.map((keyword: string, index: number) => (
+      {keywords.map((keyword: string, index: number) => (
         <Badge
           variant="secondary"
           key={index}

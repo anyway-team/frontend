@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from '@/constants/api';
+import { NewsComparison } from '@/hooks/useNewsComparison';
 
 export interface NewsItem {
   id: string;
@@ -20,12 +21,19 @@ export interface NewsParams {
 
 class NewsRepository {
   async getNewsList({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> {
+    const formData = new URLSearchParams();
+    formData.append('page', page.toString());
+    formData.append('size', size.toString());
+    if (keyword) {
+      formData.append('keyword', keyword);
+    }
+
     const response = await fetch(API_ENDPOINTS.NEWS.LIST, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ page, size, keyword }),
+      body: formData,
     });
 
     if (!response.ok) {
@@ -50,7 +58,7 @@ class NewsRepository {
     return response.json();
   }
 
-  async getNewsComparison(id: string) {
+  async getNewsComparison(id: string): Promise<NewsComparison> {
     const response = await fetch(API_ENDPOINTS.NEWS.COMPARISON(id), {
       method: 'GET',
       headers: {
@@ -59,7 +67,7 @@ class NewsRepository {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch news comparison');
+      throw new Error(`Failed to fetch news comparison: ${response.status} ${response.statusText}`);
     }
 
     return response.json();

@@ -6,6 +6,7 @@ export interface NewsDetail {
   title: string;
   published_at: string;
   source: string;
+  thumbnail_url?: string;
   summary: string[];
   bias_score: {
     progressive: number;
@@ -14,6 +15,7 @@ export interface NewsDetail {
   };
   good_comment: string;
   bad_comment: string;
+  origin_url: string;
 }
 
 export function useNewsDetail(id: string) {
