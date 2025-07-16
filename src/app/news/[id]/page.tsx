@@ -93,7 +93,7 @@ export default function NewsDetailPage() {
         source={newsDetail.source}
         time={newsDetail.published_at}
         content={tabContent()}
-        thumbnail="/sample.jpg"
+        thumbnail={newsDetail.thumbnail_url || ''}
       />
     </>
   );

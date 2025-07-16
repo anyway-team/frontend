@@ -5,7 +5,7 @@ import { Spacing } from '../ui/spacing';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
-import router from 'next/router';
+import { useState } from 'react';
 
 interface TodayNewsItem {
   id: string;
@@ -82,6 +82,8 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
 };
 
 const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => void }) => {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div
       style={{
@@ -97,19 +99,43 @@ const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => vo
       }}
       onClick={onClick}
     >
-      <Image
-        src={news.thumbnail_url}
-        alt={news.title}
-        width={120}
-        height={120}
-        style={{
-          objectFit: 'cover',
-          background: '#e5e7eb',
-          borderRadius: '8px',
-          marginRight: '16px',
-          flexShrink: 0,
-        }}
-      />
+      {/* 썸네일 이미지 또는 fallback */}
+      {!imageError && news.thumbnail_url ? (
+        <Image
+          src={news.thumbnail_url}
+          alt={news.title}
+          width={120}
+          height={120}
+          style={{
+            objectFit: 'cover',
+            background: '#e5e7eb',
+            borderRadius: '8px',
+            marginRight: '16px',
+            flexShrink: 0,
+          }}
+          onError={() => setImageError(true)}
+          unoptimized
+        />
+      ) : (
+        <div
+          style={{
+            width: '120px',
+            height: '80px',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '8px',
+            marginRight: '16px',
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#9ca3af',
+            fontSize: '0.8rem',
+          }}
+        >
+          이미지 없음
+        </div>
+      )}
+      
       <div
         style={{
           flex: 1,

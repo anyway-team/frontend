@@ -9,10 +9,12 @@ export interface HomeData {
     left_news_preview: {
       title: string;
       publisher: string;
+      thumbnail_url?: string;
     };
     right_news_preview: {
       title: string;
       publisher: string;
+      thumbnail_url?: string;
     };
   };
   today_news?: Array<{

@@ -9,10 +9,12 @@ export const handlers = [
         left_news_preview: {
           title: '"골목상권 살리자"‥\'25만 원 지역화폐\' 기대감',
           publisher: 'MBC',
+          thumbnail_url: 'https://imgnews.pstatic.net/image/056/2025/06/08/0021738415_001_20250608071114923.jpg?type=w800',
         },
         right_news_preview: {
-          title: '“지원은 있지만, 구조는 없다”.. 25만 원 지역화폐, 문제는 ‘소비’가 아니라 ‘시스템’',
+          title: '"지원은 있지만, 구조는 없다".. 25만 원 지역화폐, 문제는 \'소비\'가 아니라 \'시스템\'',
           publisher: 'SBS',
+          thumbnail_url: 'https://imgnews.pstatic.net/image/055/2025/06/06/0000082315_001_20250606082104067.jpg?type=w800',
         },
       },
       today_news: [
@@ -103,6 +105,7 @@ export const handlers = [
       title: 'AI가 바꿀 미래 일자리',
       published_at: '2024-06-04T09:00:00Z',
       source: '경향신문',
+      thumbnail_url: 'https://imgnews.pstatic.net/image/002/2025/06/09/0002392251_001_20250609203310827.jpg?type=w860',
       summary: [
         'AI 기술이 다양한 산업에 도입되고 있다.',
         '일자리 변화가 예상된다.',
@@ -126,6 +129,7 @@ export const handlers = [
         title: '진보 언론: 경제 위기, 정부 대책은?',
         published_at: '2024-06-04T07:00:00Z',
         source: '한겨레',
+        thumbnail_url: 'https://imgnews.pstatic.net/image/056/2025/06/08/0021738415_001_20250608071114923.jpg?type=w800',
         summary: ['정부의 적극적 대책 필요', '복지 확대 강조'],
         bias_score: {
           progressive: 80,
@@ -140,6 +144,7 @@ export const handlers = [
         title: '보수 언론: 경제 위기, 야당 책임론',
         published_at: '2024-06-04T07:00:00Z',
         source: '조선일보',
+        thumbnail_url: 'https://imgnews.pstatic.net/image/055/2025/06/06/0000082315_001_20250606082104067.jpg?type=w800',
         summary: ['야당의 정책 실패 지적', '시장 자율 강조'],
         bias_score: {
           progressive: 20,

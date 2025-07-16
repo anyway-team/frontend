@@ -6,6 +6,7 @@ export interface NewsDetail {
   title: string;
   published_at: string;
   source: string;
+  thumbnail_url?: string;
   summary: string[];
   bias_score: {
     progressive: number;

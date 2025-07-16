@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://cuteshrew.com';
+export const API_BASE_URL = 'https://newsbee.co.kr';
 
 export const API_ENDPOINTS = {
   NEWS: {
