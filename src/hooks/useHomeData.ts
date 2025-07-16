@@ -37,4 +37,4 @@ export function useHomeData() {
     retry: 2,
     retryDelay: 1000,
   });
-} 
+}

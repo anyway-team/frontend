@@ -10,7 +10,7 @@ import { useHomeData } from '@/hooks/useHomeData';
 import { Skeleton } from '@radix-ui/themes';
 
 export default function Home() {
-  const { data: homeData, isLoading, error } = useHomeData();
+  const { data: homeData, isLoading } = useHomeData();
 
   // 전체적인 로딩 상태에서는 기본 스켈레톤 표시
   if (isLoading) {

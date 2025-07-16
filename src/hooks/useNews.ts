@@ -35,8 +35,7 @@ const fetchNews = async ({ page = 0, size = 10, keyword }: NewsParams) => {
 export function useNews(size: number = 10, keyword?: string) {
   return useInfiniteQuery({
     queryKey: ['news', keyword],
-    queryFn: ({ pageParam = 0 }) => 
-      newsRepository.getNewsList({ page: pageParam, size, keyword }),
+    queryFn: ({ pageParam = 0 }) => newsRepository.getNewsList({ page: pageParam, size, keyword }),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.news.length === 0) {
         return undefined;

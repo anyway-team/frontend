@@ -10,7 +10,7 @@ export const formatDotYYYYMMDD = (date: Date | string): string => {
 
 export const formatDateTime = (date: Date | string): string => {
   const d = date instanceof Date ? date : new Date(date);
-  
+
   if (!isValidDate(d)) {
     return '';
   }
@@ -18,10 +18,10 @@ export const formatDateTime = (date: Date | string): string => {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
-  
+
   const hours = d.getHours();
   const minutes = String(d.getMinutes()).padStart(2, '0');
-  
+
   // 12시간 형식으로 변환
   const ampm = hours >= 12 ? '오후' : '오전';
   const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;

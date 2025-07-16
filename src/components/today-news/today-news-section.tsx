@@ -32,7 +32,7 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
     const id = todayComparisons?.id;
     if (!id) return;
     router.push(`/today-news/detail/${id}`);
-  }
+  };
 
   const hasData =
     todayComparisons?.left_news_preview?.title != null &&
@@ -65,16 +65,7 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
   }
 
   return (
-    <Section
-      title="오늘의 뉴스 비교"
-      action={
-        <Button
-          variant="ghost"
-        >
-          더보기
-        </Button>
-      }
-    >
+    <Section title="오늘의 뉴스 비교" action={<Button variant="ghost">더보기</Button>}>
       <div
         style={{
           display: 'grid',
@@ -130,7 +121,9 @@ const TodayNewsCard = ({
     >
       {/* 썸네일 이미지 */}
       {thumbnailUrl && !imageError ? (
-        <div style={{ marginBottom: '8px', height: '60px', overflow: 'hidden', borderRadius: '4px' }}>
+        <div
+          style={{ marginBottom: '8px', height: '60px', overflow: 'hidden', borderRadius: '4px' }}
+        >
           <Image
             src={thumbnailUrl}
             alt={title || '뉴스 이미지'}
@@ -139,7 +132,7 @@ const TodayNewsCard = ({
             style={{
               objectFit: 'cover',
               width: '100%',
-              height: '100%'
+              height: '100%',
             }}
             onError={() => setImageError(true)}
             unoptimized
@@ -156,7 +149,7 @@ const TodayNewsCard = ({
             alignItems: 'center',
             justifyContent: 'center',
             color: '#9ca3af',
-            fontSize: '0.7rem'
+            fontSize: '0.7rem',
           }}
         >
           이미지 없음

@@ -26,7 +26,7 @@ export default function NewsDetailPage() {
     const url = newsDetail.origin_url;
     navigator.clipboard.writeText(url);
     toast.success('원본 뉴스 기사의 URL이 복사되었습니다.');
-  }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -90,16 +90,8 @@ export default function NewsDetailPage() {
           </Button>
         }
         right={
-          <Button
-            variant="ghost"
-            onClick={handleShare}
-          >
-            <Image
-              src="/share.png"
-              alt="공유하기"
-              width={22}
-              height={22}
-            />
+          <Button variant="ghost" onClick={handleShare}>
+            <Image src="/share.png" alt="공유하기" width={22} height={22} />
           </Button>
         }
       />

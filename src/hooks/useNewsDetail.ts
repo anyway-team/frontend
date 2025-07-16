@@ -22,6 +22,6 @@ export function useNewsDetail(id: string) {
   return useQuery({
     queryKey: ['news', 'detail', id],
     queryFn: () => newsRepository.getNewsDetail(id),
-    enabled: !!id,
+    enabled: id != null,
   });
-} 
+}

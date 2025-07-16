@@ -33,15 +33,7 @@ export default function DetailPage() {
   const splideRef = useRef<SplideRef>(null);
   const [selected, setSelected] = useState<SelectedSlide>('first');
   const params = useParams<DetailPageParams>();
-  
-  // 안전한 타입 체크 및 검증
-  const newsId = params?.id;
-  
-  if (!newsId) {
-    return <div>올바르지 않은 뉴스 ID입니다.</div>;
-  }
-  
-  const { data: newsComparison, isLoading, error } = useNewsComparison(newsId);
+  const { data: newsComparison, isLoading, error } = useNewsComparison(params?.id);
 
   // SegmentedControl 변경 시 슬라이드 이동
   const handleSegmentChange = (value: string) => {
@@ -60,7 +52,7 @@ export default function DetailPage() {
     const url = currentNews.origin_url;
     navigator.clipboard.writeText(url);
     toast.success('원본 뉴스 기사의 URL이 복사되었습니다.');
-  }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -153,9 +145,9 @@ const NewsPage = ({ news }: NewsPageProps) => {
         return (
           <>
             <Tooltip text="AI가 분석한 정치성향" />
-            <Chart 
-              progressive={news.bias_score?.progressive || 0} 
-              conservative={news.bias_score?.conservative || 0} 
+            <Chart
+              progressive={news.bias_score?.progressive || 0}
+              conservative={news.bias_score?.conservative || 0}
             />
             <div style={{ margin: '12px 24px' }}>
               <Text>{news.bias_score?.reason || '분석 정보가 없습니다.'}</Text>

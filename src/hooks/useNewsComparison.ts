@@ -28,7 +28,7 @@ function useNewsComparison(id: string): UseQueryResult<NewsComparison, Error> {
   return useQuery({
     queryKey: ['news', 'comparison', id],
     queryFn: () => newsRepository.getNewsComparison(id),
-    enabled: !!id,
+    enabled: id != null,
   });
 }
 
