@@ -20,4 +20,4 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       </Providers>
     </QueryClientProvider>
   );
-} 
+}
