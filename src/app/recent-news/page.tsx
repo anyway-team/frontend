@@ -76,7 +76,6 @@ export default function RecentNewsPage() {
         {newsItems.map((item) => (
           <RecentNewsCard
             key={item.id}
-            id={item.id}
             title={item.title}
             press={item.publisher}
             publishedAt={new Date(item.published_at)}
@@ -92,7 +91,6 @@ export default function RecentNewsPage() {
 }
 
 interface RecentNewsCardProps {
-  id: string;
   title: string;
   press: string;
   publishedAt: Date;
@@ -131,14 +129,7 @@ const Thumbnail = ({ size = 140, imageUrl }: { size?: number; imageUrl: string }
   );
 };
 
-const RecentNewsCard = ({
-  id,
-  title,
-  press,
-  publishedAt,
-  imageUrl,
-  onClick,
-}: RecentNewsCardProps) => {
+const RecentNewsCard = ({ title, press, publishedAt, imageUrl, onClick }: RecentNewsCardProps) => {
   return (
     <div
       style={{
