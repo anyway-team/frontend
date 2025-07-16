@@ -21,12 +21,19 @@ export interface NewsParams {
 
 class NewsRepository {
   async getNewsList({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> {
+    const formData = new URLSearchParams();
+    formData.append('page', page.toString());
+    formData.append('size', size.toString());
+    if (keyword) {
+      formData.append('keyword', keyword);
+    }
+
     const response = await fetch(API_ENDPOINTS.NEWS.LIST, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ page, size, keyword }),
+      body: formData,
     });
 
     if (!response.ok) {
