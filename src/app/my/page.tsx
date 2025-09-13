@@ -8,23 +8,25 @@ import { RegularUserMyPage } from '@/components/my/RegularUserMyPage';
 import { PremiumUserMyPage } from '@/components/my/PremiumUserMyPage';
 
 export default function MyPage() {
-  const { isAuthenticated, user, restoreAuth, isLoading, isGuest, isRegularUser, isPremium } = useAuth();
+  const { isAuthenticated, user, restoreAuth, isLoading, isGuest, isRegularUser, isPremium } =
+    useAuth();
 
-  // 컴포넌트 마운트 시 인증 상태 복원
   useEffect(() => {
     restoreAuth();
   }, [restoreAuth]);
 
   if (isLoading) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        backgroundColor: '#f8f9fa', 
-        display: 'flex', 
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
+      <div
+        style={{
+          minHeight: '100vh',
+          backgroundColor: '#f8f9fa',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <div style={{ fontSize: '16px', color: '#666' }}>로딩 중...</div>
         <BottomNavigateBar />
       </div>
@@ -39,24 +41,26 @@ export default function MyPage() {
     if (!isAuthenticated || isGuest) {
       return <GuestMyPage />;
     }
-    
+
     if (isPremium) {
       return <PremiumUserMyPage user={user} />;
     }
-    
+
     if (isRegularUser) {
       return <RegularUserMyPage user={user} />;
     }
-    
+
     return <GuestMyPage />;
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#f8f9fa',
-      paddingBottom: '80px'
-    }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#f8f9fa',
+        paddingBottom: '80px',
+      }}
+    >
       {renderMyPageContent()}
       <BottomNavigateBar />
     </div>

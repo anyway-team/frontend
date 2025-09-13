@@ -17,7 +17,7 @@ import {
 import { LoginCredentials, User } from '@/types/user';
 
 export function useAuth() {
-  const [auth, setAuth] = useAtom(authAtom);
+  const [auth] = useAtom(authAtom);
   const userRole = useAtomValue(userRoleAtom);
   const isAuthenticated = useAtomValue(isAuthenticatedAtom);
   const user = useAtomValue(userAtom);
@@ -32,8 +32,11 @@ export function useAuth() {
 
   const handleLogin = async (credentials: LoginCredentials) => {
     try {
-      await login(credentials);
-      return true;
+      const response = await login(credentials);
+      if (response != null) {
+        return true;
+      }
+      return false;
     } catch (error) {
       console.error('Login failed:', error);
       return false;
@@ -57,7 +60,6 @@ export function useAuth() {
   };
 
   return {
-    // 상태
     auth,
     userRole,
     isAuthenticated,
@@ -65,16 +67,14 @@ export function useAuth() {
     isPremiumUser,
     isLoading,
     error,
-    
-    // 액션
+
     login: handleLogin,
     logout: handleLogout,
     updateUser: handleUpdateUser,
     restoreAuth: handleRestoreAuth,
-    
-    // 편의 메서드
+
     isGuest: userRole === 'guest',
     isRegularUser: userRole === 'user',
     isPremium: userRole === 'premium',
   };
-} 
+}
