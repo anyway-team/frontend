@@ -1,4 +1,5 @@
 import { useAtom, useAtomValue } from 'jotai';
+import { useCallback } from 'react';
 import {
   authAtom,
   userRoleAtom,
@@ -13,6 +14,8 @@ import {
   logoutActionAtom,
   updateUserActionAtom,
   restoreAuthActionAtom,
+  kakaoCallbackActionAtom,
+  refreshTokenActionAtom,
 } from '@/stores/authActions';
 import { LoginCredentials, User } from '@/types/user';
 
@@ -29,8 +32,10 @@ export function useAuth() {
   const [, logout] = useAtom(logoutActionAtom);
   const [, updateUser] = useAtom(updateUserActionAtom);
   const [, restoreAuth] = useAtom(restoreAuthActionAtom);
+  const [, kakaoCallback] = useAtom(kakaoCallbackActionAtom);
+  const [, refreshToken] = useAtom(refreshTokenActionAtom);
 
-  const handleLogin = async (credentials: LoginCredentials) => {
+  const handleLogin = useCallback(async (credentials: LoginCredentials) => {
     try {
       const response = await login(credentials);
       if (response != null) {
@@ -41,23 +46,43 @@ export function useAuth() {
       console.error('Login failed:', error);
       return false;
     }
-  };
+  }, [login]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logout();
-  };
+  }, [logout]);
 
-  const handleUpdateUser = (updates: Partial<User>) => {
+  const handleUpdateUser = useCallback((updates: Partial<User>) => {
     updateUser(updates);
-  };
+  }, [updateUser]);
 
-  const handleRestoreAuth = async () => {
+  const handleRestoreAuth = useCallback(async () => {
     try {
       await restoreAuth();
     } catch (error) {
       console.error('Auth restoration failed:', error);
     }
-  };
+  }, [restoreAuth]);
+
+  const handleKakaoCallback = useCallback(async (accessToken: string, refreshToken: string) => {
+    try {
+      const response = await kakaoCallback({ accessToken, refreshToken });
+      return response;
+    } catch (error) {
+      console.error('Kakao callback failed:', error);
+      throw error;
+    }
+  }, [kakaoCallback]);
+
+  const handleRefreshToken = useCallback(async () => {
+    try {
+      const response = await refreshToken();
+      return response;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      throw error;
+    }
+  }, [refreshToken]);
 
   return {
     auth,
@@ -72,6 +97,8 @@ export function useAuth() {
     logout: handleLogout,
     updateUser: handleUpdateUser,
     restoreAuth: handleRestoreAuth,
+    handleKakaoCallback,
+    refreshToken: handleRefreshToken,
 
     isGuest: userRole === 'guest',
     isRegularUser: userRole === 'user',

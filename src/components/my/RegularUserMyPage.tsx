@@ -1,12 +1,20 @@
 'use client';
 
 import { mockUserStats } from '@/data/mockData';
+import { useAuth } from '@/hooks/useAuth';
 
 interface RegularUserMyPageProps {
   user: any;
 }
 
 export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    if (confirm('로그아웃 하시겠습니까?')) {
+      await logout();
+    }
+  };
   return (
     <div style={{ padding: '20px' }}>
       {/* 헤더 */}
@@ -33,15 +41,19 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
           </div>
           <div>
             <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#333' }}>
-              홍길동
+              {user?.name || '사용자'}
             </div>
             <div style={{ fontSize: '14px', color: '#666' }}>
               일반 회원
             </div>
           </div>
         </div>
-        <div style={{ fontSize: '24px', color: '#666', cursor: 'pointer' }}>
-          ⚙️
+        <div 
+          onClick={handleLogout}
+          style={{ fontSize: '24px', color: '#666', cursor: 'pointer' }}
+          title="로그아웃"
+        >
+          🚪
         </div>
       </div>
 

@@ -1,12 +1,17 @@
 'use client';
 
+import { redirectToKakaoLogin } from '@/services/authService';
+
 export function GuestMyPage() {
+  const handleKakaoLogin = () => {
+    redirectToKakaoLogin();
+  };
   return (
     <div style={{ padding: '20px' }}>
       {/* 헤더 */}
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
         marginBottom: '40px',
         paddingTop: '20px'
       }}>
@@ -26,15 +31,15 @@ export function GuestMyPage() {
 
       {/* 회원님이 저장한 뉴스 섹션 */}
       <div style={{ marginBottom: '40px' }}>
-        <div style={{ 
-          fontSize: '18px', 
-          fontWeight: 'bold', 
+        <div style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
           color: '#333',
           marginBottom: '20px'
         }}>
           회원님이 저장한 뉴스
         </div>
-        
+
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -56,8 +61,8 @@ export function GuestMyPage() {
           }}>
             🔒
           </div>
-          <div style={{ 
-            fontSize: '14px', 
+          <div style={{
+            fontSize: '14px',
             color: '#999',
             textAlign: 'center',
             marginBottom: '20px'
@@ -66,18 +71,26 @@ export function GuestMyPage() {
           </div>
         </div>
 
-        <button style={{
-          width: '100%',
-          padding: '16px',
-          backgroundColor: '#333',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          cursor: 'pointer'
-        }}>
-          30초만에 로그인 하러 가기
+        <button
+          onClick={handleKakaoLogin}
+          style={{
+            width: '100%',
+            padding: '16px',
+            backgroundColor: '#FEE500',
+            color: '#000000',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}
+        >
+          <span style={{ fontSize: '18px' }}>💬</span>
+          카카오로 30초만에 로그인하기
         </button>
       </div>
 
