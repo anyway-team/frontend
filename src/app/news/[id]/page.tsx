@@ -28,16 +28,17 @@ export default function NewsDetailPage() {
 
   const newsId = id as string;
   
-  // 서버에서 받은 is_pick 필드를 우선 사용, 없으면 로컬 상태 사용
-  const isPicked = newsDetail?.is_pick !== undefined ? newsDetail.is_pick : isNewsPicked(newsId);
+  // 로컬 상태를 우선 사용하여 즉시 UI 업데이트 반영
+  const localIsPicked = isNewsPicked(newsId);
+  const isPicked = localIsPicked;
 
-  // 뉴스 상세 데이터가 로드되면 찜 상태 동기화
+  // 뉴스 상세 데이터가 로드되면 찜 상태 동기화 (초기 로드 시에만)
   useEffect(() => {
     if (newsDetail && isAuthenticated && newsDetail.is_pick !== undefined) {
-      // 서버에서 받은 찜 상태로 로컬 상태 동기화
+      // 서버에서 받은 찜 상태로 로컬 상태 동기화 (초기 설정)
       syncSingleNewsPick(newsId, newsDetail.is_pick);
     }
-  }, [newsDetail, isAuthenticated, newsId, syncSingleNewsPick]);
+  }, [newsDetail?.id, isAuthenticated]); // newsDetail.id가 변경될 때만 실행
 
   const handleShare = () => {
     if (!newsDetail) return;
@@ -52,9 +53,13 @@ export default function NewsDetailPage() {
       return;
     }
 
+    // 현재 찜 상태를 저장 (토글 전 상태)
+    const wasPickedBefore = isPicked;
+    
     const success = await togglePick(newsId);
     if (success) {
-      if (isPicked) {
+      // 토글 후 상태에 따라 메시지 표시
+      if (wasPickedBefore) {
         toast.success('찜 목록에서 제거되었습니다.');
       } else {
         toast.success('찜 목록에 추가되었습니다.');
@@ -133,11 +138,17 @@ export default function NewsDetailPage() {
               disabled={pickLoading}
               style={{
                 opacity: pickLoading ? 0.6 : 1,
-                cursor: pickLoading ? 'not-allowed' : 'pointer'
+                cursor: pickLoading ? 'not-allowed' : 'pointer',
+                transform: pickLoading ? 'scale(0.95)' : 'scale(1)',
+                transition: 'all 0.2s ease'
               }}
             >
-              <span style={{ fontSize: '22px' }}>
-                {isPicked ? '❤️' : '🤍'}
+              <span style={{ 
+                fontSize: '22px',
+                filter: pickLoading ? 'grayscale(0.5)' : 'none',
+                transition: 'filter 0.2s ease'
+              }}>
+                {pickLoading ? '⏳' : (isPicked ? '❤️' : '🤍')}
               </span>
             </Button>
             <Button variant="ghost" onClick={handleShare}>

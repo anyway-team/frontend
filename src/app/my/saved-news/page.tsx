@@ -8,10 +8,12 @@ import { NewsItem } from '@/repositories/newsRepository';
 import { formatDateTime } from '@/utils/datetime';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { useNewsPick } from '@/hooks/useNewsPick';
 
 export default function SavedNewsPage() {
   const router = useRouter();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { pickState } = useNewsPick(); // 찜 상태 변경 감지용
   const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +54,15 @@ export default function SavedNewsPage() {
       fetchPickedNews(0, true);
     }
   }, [isAuthenticated]);
+
+  // 찜 상태가 변경될 때마다 목록 새로고침
+  useEffect(() => {
+    if (isAuthenticated) {
+      // 찜 상태 변경 시 첫 페이지부터 다시 로드
+      setPage(0);
+      fetchPickedNews(0, true);
+    }
+  }, [pickState.pickedNewsIds.size, isAuthenticated]); // 찜한 뉴스 개수가 변경될 때 실행
 
   const handleLoadMore = () => {
     const nextPage = page + 1;
