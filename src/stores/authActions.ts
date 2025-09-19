@@ -7,6 +7,7 @@ import {
   logout as logoutService,
   getCurrentUser 
 } from '@/services/authService';
+import { clearPickStateActionAtom } from './newsPickActions';
 
 // 로그인 액션
 export const loginActionAtom = atom(null, async (get, set, credentials: LoginCredentials) => {
@@ -103,6 +104,9 @@ export const logoutActionAtom = atom(null, async (get, set) => {
       isLoading: false,
       error: null,
     });
+    
+    // 찜 상태도 초기화
+    set(clearPickStateActionAtom);
   }
 });
 

@@ -2,6 +2,7 @@
 
 import { mockUserStats } from '@/data/mockData';
 import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 interface RegularUserMyPageProps {
   user: any;
@@ -9,11 +10,16 @@ interface RegularUserMyPageProps {
 
 export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
   const { logout } = useAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
     if (confirm('로그아웃 하시겠습니까?')) {
       await logout();
     }
+  };
+
+  const handleGoToSavedNews = () => {
+    router.push('/my/saved-news');
   };
   return (
     <div style={{ padding: '20px' }}>
@@ -68,13 +74,36 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
         fontSize: '16px',
         fontWeight: 'bold',
         cursor: 'pointer',
-        marginBottom: '30px',
+        marginBottom: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
         <span style={{ marginRight: '8px' }}>🎯</span>
         해택 누리러 가기
+      </button>
+
+      {/* 찜한 뉴스 보기 버튼 */}
+      <button 
+        onClick={handleGoToSavedNews}
+        style={{
+          width: '100%',
+          padding: '16px',
+          backgroundColor: 'white',
+          color: '#333',
+          border: '1px solid #e9ecef',
+          borderRadius: '8px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          marginBottom: '30px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <span style={{ marginRight: '8px' }}>💾</span>
+        찜한 뉴스 보기
       </button>
 
       {/* 통계 섹션 */}
