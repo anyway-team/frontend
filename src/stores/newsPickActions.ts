@@ -100,3 +100,20 @@ export const syncPickStateActionAtom = atom(null, (get, set, pickedNewsIds: stri
     pickedNewsIds: new Set<string>(pickedNewsIds),
   });
 });
+
+// 단일 뉴스의 찜 상태 동기화 액션
+export const syncSingleNewsPickActionAtom = atom(null, (get, set, { newsId, isPicked }: { newsId: string; isPicked: boolean }) => {
+  const currentState = get(newsPickAtom);
+  const newPickedIds = new Set<string>(currentState.pickedNewsIds);
+  
+  if (isPicked) {
+    newPickedIds.add(newsId);
+  } else {
+    newPickedIds.delete(newsId);
+  }
+  
+  set(newsPickAtom, {
+    ...currentState,
+    pickedNewsIds: newPickedIds,
+  });
+});

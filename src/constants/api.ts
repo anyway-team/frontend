@@ -12,7 +12,7 @@ export const API_ENDPOINTS = {
     COMPARISON: (id: string) => `${API_BASE_URL}/api/news/comparisons/${id}`,
     PICK: `${API_BASE_URL}/api/news/pick`,
     PICK_LIST: `${API_BASE_URL}/api/news/list/pick`,
-    UNPICK: (newsId: string) => `${API_BASE_URL}/api/news/${newsId}`,
+    UNPICK: (newsId: string) => `${API_BASE_URL}/api/news/pick/${newsId}`,
   },
   HOME: `${API_BASE_URL}/api/home`,
 } as const; 

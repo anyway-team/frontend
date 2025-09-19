@@ -16,6 +16,7 @@ import { formatDateTime } from '@/utils/datetime';
 import { toast } from 'sonner';
 import { useNewsPick } from '@/hooks/useNewsPick';
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
 export default function NewsDetailPage() {
   const router = useRouter();
@@ -23,10 +24,20 @@ export default function NewsDetailPage() {
   const { data: newsDetail, isLoading, error } = useNewsDetail(id as string);
   const { tab } = useTab();
   const { isAuthenticated } = useAuth();
-  const { togglePick, isNewsPicked, isLoading: pickLoading } = useNewsPick();
+  const { togglePick, isNewsPicked, isLoading: pickLoading, syncSingleNewsPick } = useNewsPick();
 
   const newsId = id as string;
-  const isPicked = isNewsPicked(newsId);
+  
+  // 서버에서 받은 is_pick 필드를 우선 사용, 없으면 로컬 상태 사용
+  const isPicked = newsDetail?.is_pick !== undefined ? newsDetail.is_pick : isNewsPicked(newsId);
+
+  // 뉴스 상세 데이터가 로드되면 찜 상태 동기화
+  useEffect(() => {
+    if (newsDetail && isAuthenticated && newsDetail.is_pick !== undefined) {
+      // 서버에서 받은 찜 상태로 로컬 상태 동기화
+      syncSingleNewsPick(newsId, newsDetail.is_pick);
+    }
+  }, [newsDetail, isAuthenticated, newsId, syncSingleNewsPick]);
 
   const handleShare = () => {
     if (!newsDetail) return;

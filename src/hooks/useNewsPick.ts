@@ -12,6 +12,7 @@ import {
   toggleNewsPickActionAtom,
   clearPickStateActionAtom,
   syncPickStateActionAtom,
+  syncSingleNewsPickActionAtom,
 } from '@/stores/newsPickActions';
 
 export function useNewsPick() {
@@ -24,6 +25,7 @@ export function useNewsPick() {
   const [, togglePick] = useAtom(toggleNewsPickActionAtom);
   const [, clearPickState] = useAtom(clearPickStateActionAtom);
   const [, syncPickState] = useAtom(syncPickStateActionAtom);
+  const [, syncSingleNewsPick] = useAtom(syncSingleNewsPickActionAtom);
 
   const handlePickNews = useCallback(async (newsId: string) => {
     try {
@@ -67,6 +69,10 @@ export function useNewsPick() {
     syncPickState(pickedNewsIds);
   }, [syncPickState]);
 
+  const handleSyncSingleNewsPick = useCallback((newsId: string, isPicked: boolean) => {
+    syncSingleNewsPick({ newsId, isPicked });
+  }, [syncSingleNewsPick]);
+
   return {
     pickState,
     isLoading,
@@ -78,6 +84,7 @@ export function useNewsPick() {
     isNewsPicked,
     clearPickState: handleClearPickState,
     syncPickState: handleSyncPickState,
+    syncSingleNewsPick: handleSyncSingleNewsPick,
   };
 }
 
