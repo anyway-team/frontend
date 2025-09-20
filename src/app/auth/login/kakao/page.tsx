@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { kakaoCallbackActionAtom } from '@/stores/authActions';
 
-export default function KakaoLoginCallback() {
+function KakaoLoginCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, kakaoCallback] = useAtom(kakaoCallbackActionAtom);
@@ -85,5 +85,28 @@ export default function KakaoLoginCallback() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function KakaoLoginCallback() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            minHeight: '100vh',
+            backgroundColor: '#f8f9fa',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ fontSize: '16px', color: '#666' }}>로딩 중...</div>
+        </div>
+      }
+    >
+      <KakaoLoginCallbackContent />
+    </Suspense>
   );
 }

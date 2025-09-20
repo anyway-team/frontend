@@ -65,7 +65,14 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
   }
 
   return (
-    <Section title="오늘의 뉴스 비교" action={<Button variant="ghost">더보기</Button>}>
+    <Section
+      title="오늘의 뉴스 비교"
+      action={
+        <Button variant="ghost" onClick={handleNewsClick}>
+          더보기
+        </Button>
+      }
+    >
       <div
         style={{
           display: 'grid',
