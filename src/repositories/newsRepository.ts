@@ -1,5 +1,6 @@
 import { API_ENDPOINTS } from '@/constants/api';
 import { NewsComparison } from '@/hooks/useNewsComparison';
+import { apiClient } from '@/services/apiClient';
 
 export interface NewsItem {
   id: string;
@@ -21,56 +22,33 @@ export interface NewsParams {
 
 class NewsRepository {
   async getNewsList({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> {
-    const formData = new URLSearchParams();
-    formData.append('page', page.toString());
-    formData.append('size', size.toString());
+    const requestData: { page: number; size: number; keyword?: string } = {
+      page,
+      size,
+    };
+    
     if (keyword) {
-      formData.append('keyword', keyword);
+      requestData.keyword = keyword;
     }
 
-    const response = await fetch(API_ENDPOINTS.NEWS.LIST, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData,
+    return await apiClient.post<NewsResponse>(API_ENDPOINTS.NEWS.LIST, requestData, {
+      skipAuth: true, // 뉴스 목록은 인증이 필요하지 않음
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch news');
-    }
-
-    return response.json();
   }
 
   async getNewsDetail(id: string) {
-    const response = await fetch(API_ENDPOINTS.NEWS.DETAIL(id), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    // 로그인 상태에 따라 토큰 포함 여부 결정
+    const accessToken = localStorage.getItem('accessToken');
+    
+    return await apiClient.get(API_ENDPOINTS.NEWS.DETAIL(id), {
+      skipAuth: !accessToken, // 토큰이 있으면 인증 헤더 포함, 없으면 제외
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch news detail');
-    }
-
-    return response.json();
   }
 
   async getNewsComparison(id: string): Promise<NewsComparison> {
-    const response = await fetch(API_ENDPOINTS.NEWS.COMPARISON(id), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    return await apiClient.get<NewsComparison>(API_ENDPOINTS.NEWS.COMPARISON(id), {
+      skipAuth: true, // 뉴스 비교는 인증이 필요하지 않음
     });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch news comparison: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
   }
 }
 
