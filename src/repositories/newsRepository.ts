@@ -22,14 +22,16 @@ export interface NewsParams {
 
 class NewsRepository {
   async getNewsList({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> {
-    const formData = new URLSearchParams();
-    formData.append('page', page.toString());
-    formData.append('size', size.toString());
+    const requestData: { page: number; size: number; keyword?: string } = {
+      page,
+      size,
+    };
+    
     if (keyword) {
-      formData.append('keyword', keyword);
+      requestData.keyword = keyword;
     }
 
-    return await apiClient.postForm<NewsResponse>(API_ENDPOINTS.NEWS.LIST, formData, {
+    return await apiClient.post<NewsResponse>(API_ENDPOINTS.NEWS.LIST, requestData, {
       skipAuth: true, // 뉴스 목록은 인증이 필요하지 않음
     });
   }

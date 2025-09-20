@@ -37,14 +37,16 @@ export const unpickNews = async (newsId: string): Promise<PickNewsResponse> => {
 // 찜한 뉴스 목록 가져오기
 export const getPickedNewsList = async ({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> => {
   try {
-    const formData = new URLSearchParams();
-    formData.append('page', page.toString());
-    formData.append('size', size.toString());
+    const requestData: { page: number; size: number; keyword?: string } = {
+      page,
+      size,
+    };
+    
     if (keyword) {
-      formData.append('keyword', keyword);
+      requestData.keyword = keyword;
     }
 
-    return await apiClient.postForm<NewsResponse>(API_ENDPOINTS.NEWS.PICK_LIST, formData);
+    return await apiClient.post<NewsResponse>(API_ENDPOINTS.NEWS.PICK_LIST, requestData);
   } catch (error) {
     console.error('찜한 뉴스 목록 가져오기 실패:', error);
     throw error;
