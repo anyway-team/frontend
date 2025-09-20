@@ -42,11 +42,11 @@ export default function MyPage() {
       return <GuestMyPage />;
     }
 
-    if (isPremium) {
+    if (isPremium && user) {
       return <PremiumUserMyPage user={user} />;
     }
 
-    if (isRegularUser) {
+    if (isRegularUser && user) {
       return <RegularUserMyPage user={user} />;
     }
 
