@@ -24,7 +24,7 @@ export const UserProfile = () => {
 
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm text-gray-600">멤버십</span>
-          <Badge variant={isPremium ? 'premium' : 'default'}>
+          <Badge variant={isPremium ? 'default' : 'outline'}>
             {isPremium ? '프리미엄' : '일반'}
           </Badge>
         </div>
@@ -40,14 +40,10 @@ export const UserProfile = () => {
           <p>마지막 업데이트: {new Date(user.updatedAt).toLocaleDateString('ko-KR')}</p>
         </div>
 
-        <Button
-          onClick={logout}
-          variant="outline"
-          className="w-full mt-4"
-        >
+        <Button onClick={logout} variant="outline" className="w-full mt-4">
           로그아웃
         </Button>
       </div>
     </div>
   );
-}; 
+};

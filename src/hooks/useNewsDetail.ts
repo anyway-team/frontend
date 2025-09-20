@@ -16,6 +16,7 @@ export interface NewsDetail {
   good_comment: string;
   bad_comment: string;
   origin_url: string;
+  is_pick?: boolean;
 }
 
 export function useNewsDetail(id: string) {

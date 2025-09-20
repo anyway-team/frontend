@@ -10,7 +10,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import { Spacing } from '@/components/ui/spacing';
-import { useNewsDetail } from '@/hooks/useNewsDetail';
+import { useNewsDetail, type NewsDetail } from '@/hooks/useNewsDetail';
 import { NewsSection } from '@/components/common/news-section';
 import { formatDateTime } from '@/utils/datetime';
 import { toast } from 'sonner';
@@ -21,13 +21,21 @@ import { useEffect } from 'react';
 export default function NewsDetailPage() {
   const router = useRouter();
   const { id } = useParams();
-  const { data: newsDetail, isLoading, error } = useNewsDetail(id as string);
+  const {
+    data: newsDetail,
+    isLoading,
+    error,
+  } = useNewsDetail(id as string) as {
+    data: NewsDetail | undefined;
+    isLoading: boolean;
+    error: Error | null;
+  };
   const { tab } = useTab();
   const { isAuthenticated } = useAuth();
   const { togglePick, isNewsPicked, isLoading: pickLoading, syncSingleNewsPick } = useNewsPick();
 
   const newsId = id as string;
-  
+
   // 로컬 상태를 우선 사용하여 즉시 UI 업데이트 반영
   const localIsPicked = isNewsPicked(newsId);
   const isPicked = localIsPicked;
@@ -38,7 +46,7 @@ export default function NewsDetailPage() {
       // 서버에서 받은 찜 상태로 로컬 상태 동기화 (초기 설정)
       syncSingleNewsPick(newsId, newsDetail.is_pick);
     }
-  }, [newsDetail?.id, isAuthenticated]); // newsDetail.id가 변경될 때만 실행
+  }, [newsDetail?.id, isAuthenticated, newsDetail, syncSingleNewsPick, newsId]); // newsDetail.id가 변경될 때만 실행
 
   const handleShare = () => {
     if (!newsDetail) return;
@@ -55,7 +63,7 @@ export default function NewsDetailPage() {
 
     // 현재 찜 상태를 저장 (토글 전 상태)
     const wasPickedBefore = isPicked;
-    
+
     const success = await togglePick(newsId);
     if (success) {
       // 토글 후 상태에 따라 메시지 표시
@@ -95,7 +103,7 @@ export default function NewsDetailPage() {
           </>
         );
       case 'ai-summary':
-        return <AiSummarySection description={newsDetail.summary} />;
+        return <AiSummarySection description={newsDetail.summary.join(' ')} />;
       case 'reaction':
         return (
           <ReactionSection
@@ -132,23 +140,25 @@ export default function NewsDetailPage() {
         }
         right={
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               onClick={handleTogglePick}
               disabled={pickLoading}
               style={{
                 opacity: pickLoading ? 0.6 : 1,
                 cursor: pickLoading ? 'not-allowed' : 'pointer',
                 transform: pickLoading ? 'scale(0.95)' : 'scale(1)',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
               }}
             >
-              <span style={{ 
-                fontSize: '22px',
-                filter: pickLoading ? 'grayscale(0.5)' : 'none',
-                transition: 'filter 0.2s ease'
-              }}>
-                {pickLoading ? '⏳' : (isPicked ? '❤️' : '🤍')}
+              <span
+                style={{
+                  fontSize: '22px',
+                  filter: pickLoading ? 'grayscale(0.5)' : 'none',
+                  transition: 'filter 0.2s ease',
+                }}
+              >
+                {pickLoading ? '⏳' : isPicked ? '❤️' : '🤍'}
               </span>
             </Button>
             <Button variant="ghost" onClick={handleShare}>

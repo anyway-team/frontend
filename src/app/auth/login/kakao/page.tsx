@@ -14,10 +14,10 @@ export default function KakaoLoginCallback() {
   useEffect(() => {
     // 이미 처리되었다면 중복 실행 방지
     if (processedRef.current) return;
-    
+
     const processKakaoCallback = async () => {
       processedRef.current = true;
-      
+
       const accessToken = searchParams.get('accessToken');
       const refreshToken = searchParams.get('refreshToken');
 
@@ -69,15 +69,17 @@ export default function KakaoLoginCallback() {
             animation: 'spin 1s linear infinite',
           }}
         />
-        <div style={{ fontSize: '16px', color: '#666' }}>
-          카카오 로그인 처리 중...
-        </div>
+        <div style={{ fontSize: '16px', color: '#666' }}>카카오 로그인 처리 중...</div>
       </div>
-      
+
       <style jsx>{`
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </div>

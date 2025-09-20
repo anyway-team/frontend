@@ -17,14 +17,13 @@ export const LoginForm = () => {
     await login(credentials);
   };
 
-  const handleInputChange = (field: keyof LoginCredentials) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCredentials(prev => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-  };
+  const handleInputChange =
+    (field: keyof LoginCredentials) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCredentials((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
+    };
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -43,7 +42,7 @@ export const LoginForm = () => {
             placeholder="이메일을 입력하세요"
           />
         </div>
-        
+
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             비밀번호
@@ -59,17 +58,9 @@ export const LoginForm = () => {
           />
         </div>
 
-        {error && (
-          <div className="text-red-600 text-sm text-center">
-            {error}
-          </div>
-        )}
+        {error && <div className="text-red-600 text-sm text-center">{error}</div>}
 
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="w-full"
-        >
+        <Button type="submit" disabled={isLoading} className="w-full">
           {isLoading ? '로그인 중...' : '로그인'}
         </Button>
 
@@ -81,4 +72,4 @@ export const LoginForm = () => {
       </form>
     </div>
   );
-}; 
+};

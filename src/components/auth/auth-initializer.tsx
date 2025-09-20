@@ -11,4 +11,4 @@ export const AuthInitializer = () => {
   }, [restoreAuth]);
 
   return null; // 이 컴포넌트는 UI를 렌더링하지 않음
-}; 
+};
