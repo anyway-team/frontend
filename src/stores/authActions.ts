@@ -1,11 +1,11 @@
 import { atom } from 'jotai';
 import { authAtom } from './authStore';
 import { User, LoginCredentials, LoginResponse } from '@/types/user';
-import { 
-  processKakaoCallback, 
-  refreshAccessToken, 
+import {
+  processKakaoCallback,
+  refreshAccessToken,
   logout as logoutService,
-  getCurrentUser 
+  getCurrentUser,
 } from '@/services/authService';
 import { clearPickStateActionAtom } from './newsPickActions';
 
@@ -59,36 +59,43 @@ export const loginActionAtom = atom(null, async (get, set, credentials: LoginCre
 });
 
 // 카카오 로그인 콜백 처리 액션
-export const kakaoCallbackActionAtom = atom(null, async (get, set, { accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
-  const currentAuth = get(authAtom);
+export const kakaoCallbackActionAtom = atom(
+  null,
+  async (
+    get,
+    set,
+    { accessToken, refreshToken }: { accessToken: string; refreshToken: string }
+  ) => {
+    const currentAuth = get(authAtom);
 
-  // 로딩 상태 시작
-  set(authAtom, { ...currentAuth, isLoading: true, error: null });
+    // 로딩 상태 시작
+    set(authAtom, { ...currentAuth, isLoading: true, error: null });
 
-  try {
-    const response = await processKakaoCallback(accessToken, refreshToken);
+    try {
+      const response = await processKakaoCallback(accessToken, refreshToken);
 
-    // 인증 상태 업데이트
-    set(authAtom, {
-      isAuthenticated: true,
-      user: response.user,
-      isLoading: false,
-      error: null,
-    });
+      // 인증 상태 업데이트
+      set(authAtom, {
+        isAuthenticated: true,
+        user: response.user,
+        isLoading: false,
+        error: null,
+      });
 
-    return response;
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : '카카오 로그인에 실패했습니다.';
+      return response;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '카카오 로그인에 실패했습니다.';
 
-    set(authAtom, {
-      ...currentAuth,
-      isLoading: false,
-      error: errorMessage,
-    });
+      set(authAtom, {
+        ...currentAuth,
+        isLoading: false,
+        error: errorMessage,
+      });
 
-    throw error;
+      throw error;
+    }
   }
-});
+);
 
 // 로그아웃 액션
 export const logoutActionAtom = atom(null, async (get, set) => {
@@ -104,7 +111,7 @@ export const logoutActionAtom = atom(null, async (get, set) => {
       isLoading: false,
       error: null,
     });
-    
+
     // 찜 상태도 초기화
     set(clearPickStateActionAtom);
   }
@@ -124,8 +131,6 @@ export const updateUserActionAtom = atom(null, (get, set, updates: Partial<User>
 
 // 토큰 갱신 액션
 export const refreshTokenActionAtom = atom(null, async (get, set) => {
-  const currentAuth = get(authAtom);
-
   try {
     const response = await refreshAccessToken();
     return response;
@@ -148,7 +153,7 @@ export const restoreAuthActionAtom = atom(null, async (get, set) => {
   if (accessToken) {
     try {
       const user = await getCurrentUser();
-      
+
       if (user) {
         set(authAtom, {
           isAuthenticated: true,

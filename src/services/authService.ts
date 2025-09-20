@@ -53,7 +53,7 @@ export const processKakaoCallback = async (
 // 토큰 갱신
 export const refreshAccessToken = async (): Promise<RefreshTokenResponse> => {
   const refreshToken = localStorage.getItem('refreshToken');
-  
+
   if (!refreshToken) {
     throw new Error('리프레시 토큰이 없습니다.');
   }
@@ -63,7 +63,7 @@ export const refreshAccessToken = async (): Promise<RefreshTokenResponse> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${refreshToken}`,
+        Authorization: `Bearer ${refreshToken}`,
       },
     });
 
@@ -72,7 +72,7 @@ export const refreshAccessToken = async (): Promise<RefreshTokenResponse> => {
     }
 
     const data: RefreshTokenResponse = await response.json();
-    
+
     // 새로운 토큰들을 저장
     localStorage.setItem('accessToken', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
@@ -96,7 +96,7 @@ export const logout = async (): Promise<void> => {
       await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
     }
@@ -113,7 +113,7 @@ export const logout = async (): Promise<void> => {
 // 현재 사용자 정보 가져오기 (토큰 검증 포함)
 export const getCurrentUser = async (): Promise<User | null> => {
   const accessToken = localStorage.getItem('accessToken');
-  
+
   if (!accessToken) {
     return null;
   }
@@ -144,12 +144,12 @@ export const getCurrentUser = async (): Promise<User | null> => {
 // API 요청 시 사용할 Authorization 헤더 생성
 export const getAuthHeaders = (): Record<string, string> => {
   const accessToken = localStorage.getItem('accessToken');
-  
+
   if (accessToken) {
     return {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     };
   }
-  
+
   return {};
 };

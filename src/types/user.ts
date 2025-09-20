@@ -25,4 +25,4 @@ export interface LoginResponse {
   token: string;
 }
 
-export type UserRole = 'guest' | 'user' | 'premium'; 
+export type UserRole = 'guest' | 'user' | 'premium';

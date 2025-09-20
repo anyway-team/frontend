@@ -12,7 +12,7 @@ class ApiClient {
   // 토큰 갱신
   private async refreshToken(): Promise<boolean> {
     const refreshToken = localStorage.getItem('refreshToken');
-    
+
     if (!refreshToken) {
       this.clearTokens();
       return false;
@@ -23,7 +23,7 @@ class ApiClient {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${refreshToken}`,
+          Authorization: `Bearer ${refreshToken}`,
         },
       });
 
@@ -32,7 +32,7 @@ class ApiClient {
       }
 
       const data = await response.json();
-      
+
       // 새로운 토큰들을 저장
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
@@ -54,24 +54,24 @@ class ApiClient {
   // Authorization 헤더 생성
   private getAuthHeaders(): Record<string, string> {
     const accessToken = localStorage.getItem('accessToken');
-    
+
     if (accessToken) {
       return {
-        'Authorization': `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       };
     }
-    
+
     return {};
   }
 
   // API 요청 (토큰 자동 갱신 포함)
-  async request<T = any>(url: string, options: ApiRequestOptions = {}): Promise<T> {
+  async request<T = unknown>(url: string, options: ApiRequestOptions = {}): Promise<T> {
     const { skipAuth = false, skipRetry = false, ...fetchOptions } = options;
 
     // 기본 헤더 설정
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...(fetchOptions.headers as Record<string, string> || {}),
+      ...((fetchOptions.headers as Record<string, string>) || {}),
     };
 
     // 인증이 필요한 경우 Authorization 헤더 추가
@@ -101,7 +101,7 @@ class ApiClient {
         // 토큰 갱신 시도
         this.isRefreshing = true;
         this.refreshPromise = this.refreshToken();
-        
+
         const refreshSuccess = await this.refreshPromise;
         this.isRefreshing = false;
         this.refreshPromise = null;
@@ -123,7 +123,7 @@ class ApiClient {
       if (contentType && contentType.includes('application/json')) {
         return await response.json();
       } else {
-        return response as any;
+        return response as unknown as T;
       }
     } catch (error) {
       console.error('API 요청 실패:', error);
@@ -132,12 +132,16 @@ class ApiClient {
   }
 
   // GET 요청
-  async get<T = any>(url: string, options: ApiRequestOptions = {}): Promise<T> {
+  async get<T = unknown>(url: string, options: ApiRequestOptions = {}): Promise<T> {
     return this.request<T>(url, { ...options, method: 'GET' });
   }
 
   // POST 요청
-  async post<T = any>(url: string, data?: any, options: ApiRequestOptions = {}): Promise<T> {
+  async post<T = unknown>(
+    url: string,
+    data?: unknown,
+    options: ApiRequestOptions = {}
+  ): Promise<T> {
     return this.request<T>(url, {
       ...options,
       method: 'POST',
@@ -146,7 +150,7 @@ class ApiClient {
   }
 
   // PUT 요청
-  async put<T = any>(url: string, data?: any, options: ApiRequestOptions = {}): Promise<T> {
+  async put<T = unknown>(url: string, data?: unknown, options: ApiRequestOptions = {}): Promise<T> {
     return this.request<T>(url, {
       ...options,
       method: 'PUT',
@@ -155,14 +159,18 @@ class ApiClient {
   }
 
   // DELETE 요청
-  async delete<T = any>(url: string, options: ApiRequestOptions = {}): Promise<T> {
+  async delete<T = unknown>(url: string, options: ApiRequestOptions = {}): Promise<T> {
     return this.request<T>(url, { ...options, method: 'DELETE' });
   }
 
   // Form 데이터 POST 요청
-  async postForm<T = any>(url: string, formData: FormData | URLSearchParams, options: ApiRequestOptions = {}): Promise<T> {
+  async postForm<T = unknown>(
+    url: string,
+    formData: FormData | URLSearchParams,
+    options: ApiRequestOptions = {}
+  ): Promise<T> {
     const { headers = {}, ...restOptions } = options;
-    
+
     // Form 데이터의 경우 Content-Type 헤더를 별도로 설정
     const formHeaders: Record<string, string> = {
       ...this.getAuthHeaders(),
@@ -174,7 +182,7 @@ class ApiClient {
       formHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     // FormData의 경우 브라우저가 자동으로 Content-Type을 설정하므로 제외
-    
+
     return this.request<T>(url, {
       ...restOptions,
       method: 'POST',

@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { User, AuthState, UserRole } from '@/types/user';
+import { AuthState, UserRole } from '@/types/user';
 
 // 초기 인증 상태
 const initialAuthState: AuthState = {
@@ -15,11 +15,11 @@ export const authAtom = atom<AuthState>(initialAuthState);
 // 사용자 역할 계산 atom
 export const userRoleAtom = atom<UserRole>((get) => {
   const auth = get(authAtom);
-  
+
   if (!auth.isAuthenticated || !auth.user) {
     return 'guest';
   }
-  
+
   return auth.user.isPremium ? 'premium' : 'user';
 });
 
@@ -39,4 +39,4 @@ export const isPremiumUserAtom = atom((get) => {
 export const authLoadingAtom = atom((get) => get(authAtom).isLoading);
 
 // 에러 상태 atom
-export const authErrorAtom = atom((get) => get(authAtom).error); 
+export const authErrorAtom = atom((get) => get(authAtom).error);

@@ -26,7 +26,7 @@ class NewsRepository {
       page,
       size,
     };
-    
+
     if (keyword) {
       requestData.keyword = keyword;
     }
@@ -39,7 +39,7 @@ class NewsRepository {
   async getNewsDetail(id: string) {
     // 로그인 상태에 따라 토큰 포함 여부 결정
     const accessToken = localStorage.getItem('accessToken');
-    
+
     return await apiClient.get(API_ENDPOINTS.NEWS.DETAIL(id), {
       skipAuth: !accessToken, // 토큰이 있으면 인증 헤더 포함, 없으면 제외
     });

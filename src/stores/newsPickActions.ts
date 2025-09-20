@@ -94,7 +94,7 @@ export const clearPickStateActionAtom = atom(null, (get, set) => {
 // 찜한 뉴스 목록으로부터 상태 동기화 액션
 export const syncPickStateActionAtom = atom(null, (get, set, pickedNewsIds: string[]) => {
   const currentState = get(newsPickAtom);
-  
+
   set(newsPickAtom, {
     ...currentState,
     pickedNewsIds: new Set<string>(pickedNewsIds),
@@ -102,18 +102,21 @@ export const syncPickStateActionAtom = atom(null, (get, set, pickedNewsIds: stri
 });
 
 // 단일 뉴스의 찜 상태 동기화 액션
-export const syncSingleNewsPickActionAtom = atom(null, (get, set, { newsId, isPicked }: { newsId: string; isPicked: boolean }) => {
-  const currentState = get(newsPickAtom);
-  const newPickedIds = new Set<string>(currentState.pickedNewsIds);
-  
-  if (isPicked) {
-    newPickedIds.add(newsId);
-  } else {
-    newPickedIds.delete(newsId);
+export const syncSingleNewsPickActionAtom = atom(
+  null,
+  (get, set, { newsId, isPicked }: { newsId: string; isPicked: boolean }) => {
+    const currentState = get(newsPickAtom);
+    const newPickedIds = new Set<string>(currentState.pickedNewsIds);
+
+    if (isPicked) {
+      newPickedIds.add(newsId);
+    } else {
+      newPickedIds.delete(newsId);
+    }
+
+    set(newsPickAtom, {
+      ...currentState,
+      pickedNewsIds: newPickedIds,
+    });
   }
-  
-  set(newsPickAtom, {
-    ...currentState,
-    pickedNewsIds: newPickedIds,
-  });
-});
+);

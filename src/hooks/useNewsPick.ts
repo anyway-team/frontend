@@ -1,10 +1,10 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { useCallback } from 'react';
-import { 
-  newsPickAtom, 
-  isNewsPickedAtom, 
-  pickLoadingAtom, 
-  pickErrorAtom 
+import {
+  newsPickAtom,
+  isNewsPickedAtom,
+  pickLoadingAtom,
+  pickErrorAtom,
 } from '@/stores/newsPickStore';
 import {
   pickNewsActionAtom,
@@ -27,57 +27,75 @@ export function useNewsPick() {
   const [, syncPickState] = useAtom(syncPickStateActionAtom);
   const [, syncSingleNewsPick] = useAtom(syncSingleNewsPickActionAtom);
 
-  const handlePickNews = useCallback(async (newsId: string) => {
-    try {
-      await pickNews(newsId);
-      return true;
-    } catch (error) {
-      console.error('뉴스 찜하기 실패:', error);
-      return false;
-    }
-  }, [pickNews]);
+  const handlePickNews = useCallback(
+    async (newsId: string) => {
+      try {
+        await pickNews(newsId);
+        return true;
+      } catch (error) {
+        console.error('뉴스 찜하기 실패:', error);
+        return false;
+      }
+    },
+    [pickNews]
+  );
 
-  const handleUnpickNews = useCallback(async (newsId: string) => {
-    try {
-      await unpickNews(newsId);
-      return true;
-    } catch (error) {
-      console.error('뉴스 찜 해제 실패:', error);
-      return false;
-    }
-  }, [unpickNews]);
+  const handleUnpickNews = useCallback(
+    async (newsId: string) => {
+      try {
+        await unpickNews(newsId);
+        return true;
+      } catch (error) {
+        console.error('뉴스 찜 해제 실패:', error);
+        return false;
+      }
+    },
+    [unpickNews]
+  );
 
-  const handleTogglePick = useCallback(async (newsId: string) => {
-    try {
-      await togglePick(newsId);
-      return true;
-    } catch (error) {
-      console.error('뉴스 찜 토글 실패:', error);
-      return false;
-    }
-  }, [togglePick]);
+  const handleTogglePick = useCallback(
+    async (newsId: string) => {
+      try {
+        await togglePick(newsId);
+        return true;
+      } catch (error) {
+        console.error('뉴스 찜 토글 실패:', error);
+        return false;
+      }
+    },
+    [togglePick]
+  );
 
-  const isNewsPicked = useCallback((newsId: string) => {
-    return pickState.pickedNewsIds.has(newsId);
-  }, [pickState.pickedNewsIds]);
+  const isNewsPicked = useCallback(
+    (newsId: string) => {
+      return pickState.pickedNewsIds.has(newsId);
+    },
+    [pickState.pickedNewsIds]
+  );
 
   const handleClearPickState = useCallback(() => {
     clearPickState();
   }, [clearPickState]);
 
-  const handleSyncPickState = useCallback((pickedNewsIds: string[]) => {
-    syncPickState(pickedNewsIds);
-  }, [syncPickState]);
+  const handleSyncPickState = useCallback(
+    (pickedNewsIds: string[]) => {
+      syncPickState(pickedNewsIds);
+    },
+    [syncPickState]
+  );
 
-  const handleSyncSingleNewsPick = useCallback((newsId: string, isPicked: boolean) => {
-    syncSingleNewsPick({ newsId, isPicked });
-  }, [syncSingleNewsPick]);
+  const handleSyncSingleNewsPick = useCallback(
+    (newsId: string, isPicked: boolean) => {
+      syncSingleNewsPick({ newsId, isPicked });
+    },
+    [syncSingleNewsPick]
+  );
 
   return {
     pickState,
     isLoading,
     error,
-    
+
     pickNews: handlePickNews,
     unpickNews: handleUnpickNews,
     togglePick: handleTogglePick,
@@ -93,6 +111,6 @@ export function useNewsPickStatus(newsId: string) {
   const isPickedAtom = isNewsPickedAtom(newsId);
   const isPicked = useAtomValue(isPickedAtom);
   const isLoading = useAtomValue(pickLoadingAtom);
-  
+
   return { isPicked, isLoading };
 }

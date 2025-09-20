@@ -35,26 +35,32 @@ export function useAuth() {
   const [, kakaoCallback] = useAtom(kakaoCallbackActionAtom);
   const [, refreshToken] = useAtom(refreshTokenActionAtom);
 
-  const handleLogin = useCallback(async (credentials: LoginCredentials) => {
-    try {
-      const response = await login(credentials);
-      if (response != null) {
-        return true;
+  const handleLogin = useCallback(
+    async (credentials: LoginCredentials) => {
+      try {
+        const response = await login(credentials);
+        if (response != null) {
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Login failed:', error);
+        return false;
       }
-      return false;
-    } catch (error) {
-      console.error('Login failed:', error);
-      return false;
-    }
-  }, [login]);
+    },
+    [login]
+  );
 
   const handleLogout = useCallback(() => {
     logout();
   }, [logout]);
 
-  const handleUpdateUser = useCallback((updates: Partial<User>) => {
-    updateUser(updates);
-  }, [updateUser]);
+  const handleUpdateUser = useCallback(
+    (updates: Partial<User>) => {
+      updateUser(updates);
+    },
+    [updateUser]
+  );
 
   const handleRestoreAuth = useCallback(async () => {
     try {
@@ -64,15 +70,18 @@ export function useAuth() {
     }
   }, [restoreAuth]);
 
-  const handleKakaoCallback = useCallback(async (accessToken: string, refreshToken: string) => {
-    try {
-      const response = await kakaoCallback({ accessToken, refreshToken });
-      return response;
-    } catch (error) {
-      console.error('Kakao callback failed:', error);
-      throw error;
-    }
-  }, [kakaoCallback]);
+  const handleKakaoCallback = useCallback(
+    async (accessToken: string, refreshToken: string) => {
+      try {
+        const response = await kakaoCallback({ accessToken, refreshToken });
+        return response;
+      } catch (error) {
+        console.error('Kakao callback failed:', error);
+        throw error;
+      }
+    },
+    [kakaoCallback]
+  );
 
   const handleRefreshToken = useCallback(async () => {
     try {

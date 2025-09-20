@@ -35,13 +35,17 @@ export const unpickNews = async (newsId: string): Promise<PickNewsResponse> => {
 };
 
 // 찜한 뉴스 목록 가져오기
-export const getPickedNewsList = async ({ page = 0, size = 10, keyword }: NewsParams): Promise<NewsResponse> => {
+export const getPickedNewsList = async ({
+  page = 0,
+  size = 10,
+  keyword,
+}: NewsParams): Promise<NewsResponse> => {
   try {
     const requestData: { page: number; size: number; keyword?: string } = {
       page,
       size,
     };
-    
+
     if (keyword) {
       requestData.keyword = keyword;
     }
@@ -54,7 +58,7 @@ export const getPickedNewsList = async ({ page = 0, size = 10, keyword }: NewsPa
 };
 
 // 뉴스 찜 상태 확인 (뉴스 상세 정보에 포함되어 있다고 가정)
-export const checkNewsPickStatus = async (newsId: string): Promise<boolean> => {
+export const checkNewsPickStatus = async (): Promise<boolean> => {
   try {
     // 실제로는 뉴스 상세 정보에 isPicked 필드가 포함되어 있을 것으로 예상
     // 현재는 임시로 false 반환
