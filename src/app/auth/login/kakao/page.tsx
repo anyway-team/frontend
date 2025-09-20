@@ -38,7 +38,9 @@ export default function KakaoLoginCallback() {
     };
 
     processKakaoCallback();
-  }, []); // 의존성 배열을 비워서 한 번만 실행
+    // 의존성 배열을 비워서 한 번만 실행
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
