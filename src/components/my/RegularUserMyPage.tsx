@@ -21,6 +21,10 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
   const handleGoToSavedNews = () => {
     router.push('/my/saved-news');
   };
+  
+  const handleGoToHome = () => {
+    router.push('/');
+  };
   return (
     <div style={{ padding: '20px' }}>
       {/* 헤더 */}
@@ -63,26 +67,6 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
         </div>
       </div>
 
-      {/* 해택 누리러 가기 버튼 */}
-      <button style={{
-        width: '100%',
-        padding: '16px',
-        backgroundColor: '#333',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        marginBottom: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <span style={{ marginRight: '8px' }}>🎯</span>
-        해택 누리러 가기
-      </button>
-
       {/* 찜한 뉴스 보기 버튼 */}
       <button 
         onClick={handleGoToSavedNews}
@@ -123,10 +107,7 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
             {mockUserStats.totalNewsRead}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            광고
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            안봤도돼요
+            읽은 뉴스
           </div>
         </div>
 
@@ -141,10 +122,7 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
             {mockUserStats.totalNewsCompared}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            뉴스비교
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            무제한으로
+            비교한 뉴스
           </div>
         </div>
 
@@ -159,51 +137,24 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
             {mockUserStats.favoriteNews}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            주요뉴스
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            알림톡까지
+            저장한 뉴스
           </div>
         </div>
       </div>
 
       {/* 하단 메뉴 */}
       <div>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: '16px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          marginBottom: '12px',
-          cursor: 'pointer'
-        }}>
-          <div style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '12px',
-            backgroundColor: '#a8b3ff',
+        <div 
+          onClick={handleGoToHome}
+          style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            marginRight: '16px'
-          }}>
-            📢
-          </div>
-          <div style={{ fontSize: '16px', fontWeight: '500', color: '#333', flex: 1 }}>
-            공지사항 보러가기
-          </div>
-          <div style={{ fontSize: '18px', color: '#999' }}>›</div>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: '16px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          cursor: 'pointer'
-        }}>
+            padding: '16px',
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            cursor: 'pointer'
+          }}
+        >
           <div style={{
             width: '48px',
             height: '48px',

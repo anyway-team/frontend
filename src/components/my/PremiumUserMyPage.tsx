@@ -21,6 +21,10 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
   const handleGoToSavedNews = () => {
     router.push('/my/saved-news');
   };
+  
+  const handleGoToHome = () => {
+    router.push('/');
+  };
   return (
     <div style={{ padding: '20px' }}>
       {/* 헤더 */}
@@ -132,10 +136,7 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
             {mockUserStats.totalNewsRead}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            광고
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            안봤도돼요
+            읽은 뉴스
           </div>
         </div>
 
@@ -150,10 +151,7 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
             {mockUserStats.totalNewsCompared}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            뉴스비교
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            무제한으로
+            비교한 뉴스
           </div>
         </div>
 
@@ -168,10 +166,7 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
             {mockUserStats.favoriteNews}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
-            주요뉴스
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
-            알림톡까지
+            저장한 뉴스
           </div>
         </div>
       </div>
@@ -254,41 +249,17 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
 
       {/* 하단 메뉴 */}
       <div>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: '16px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          marginBottom: '12px',
-          cursor: 'pointer'
-        }}>
-          <div style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '12px',
-            backgroundColor: '#a8b3ff',
+        <div 
+          onClick={handleGoToHome}
+          style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            marginRight: '16px'
-          }}>
-            📢
-          </div>
-          <div style={{ fontSize: '16px', fontWeight: '500', color: '#333', flex: 1 }}>
-            공지사항 보러가기
-          </div>
-          <div style={{ fontSize: '18px', color: '#999' }}>›</div>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: '16px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          cursor: 'pointer'
-        }}>
+            padding: '16px',
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            cursor: 'pointer'
+          }}
+        >
           <div style={{
             width: '48px',
             height: '48px',
