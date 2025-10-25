@@ -11,7 +11,7 @@ export interface NewsDetail {
   bias_score: {
     progressive: number;
     conservative: number;
-    reason: string;
+    reasoning: string;
   };
   good_comment: string;
   bad_comment: string;

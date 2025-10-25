@@ -100,6 +100,25 @@ export default function NewsDetailPage() {
             <div style={{ margin: '12px 24px' }}>
               {newsDetail.bias_score && <Text>{newsDetail.bias_score.reason}</Text>}
             </div>
+            {/* AI 분석 근거 표시 */}
+            {newsDetail.bias_score?.reasoning && (
+              <div
+                style={{
+                  margin: '12px 24px',
+                  padding: '16px',
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: '8px',
+                }}
+              >
+                <Text style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>
+                  AI 분석 근거
+                </Text>
+
+                <Text style={{ display: 'block', whiteSpace: 'pre-wrap' }}>
+                  {newsDetail.bias_score.reasoning}
+                </Text>
+              </div>
+            )}
           </>
         );
       case 'ai-summary':
