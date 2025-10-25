@@ -1,28 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { newsRepository } from '@/repositories/newsRepository';
+import type { NewsComparison } from '@/types/news/news-comparison';
 
-interface NewsComparison {
-  id: string;
-  left_news: News;
-  right_news: News;
-}
-
-interface News {
-  id: string;
-  title: string;
-  published_at: string;
-  source: string;
-  thumbnail_url?: string;
-  summary: string[];
-  bias_score: {
-    progressive: number;
-    conservative: number;
-    reason: string;
-  };
-  good_comment: string;
-  bad_comment: string;
-  origin_url: string;
-}
+export type { NewsComparison };
 
 function useNewsComparison(id: string): UseQueryResult<NewsComparison, Error> {
   return useQuery({
@@ -32,4 +12,4 @@ function useNewsComparison(id: string): UseQueryResult<NewsComparison, Error> {
   });
 }
 
-export { type NewsComparison, type News, useNewsComparison };
+export { useNewsComparison };

@@ -1,33 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/constants/api';
-
-export interface HomeData {
-  hot_keywords?: string[];
-  today_comparisons?: {
-    id: string;
-    left_news_preview: {
-      title: string;
-      publisher: string;
-      thumbnail_url?: string;
-    };
-    right_news_preview: {
-      title: string;
-      publisher: string;
-      thumbnail_url?: string;
-    };
-  };
-  today_news?: Array<{
-    id: string;
-    title: string;
-    published_at: string;
-    thumbnail_url: string;
-    publisher: string;
-  }>;
-}
+import { NewsHome } from '@/types/news/news-home';
 
 export function useHomeData() {
-  return useQuery<HomeData>({
+  return useQuery<NewsHome>({
     queryKey: ['/api/home'],
     queryFn: async () => {
       const res = await axios.get(API_ENDPOINTS.HOME);
