@@ -20,6 +20,7 @@ export const Tabs = ({ value, onChange }: Props) => {
             value={key}
             style={{
               flex: 1,
+              cursor: 'pointer',
             }}
           >
             {value}
