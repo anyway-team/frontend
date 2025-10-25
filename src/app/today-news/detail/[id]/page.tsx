@@ -17,9 +17,10 @@ import { NewsSection } from '@/components/common/news-section';
 import { useTab } from '@/components/today-news-detail/tabs';
 import { AiSummarySection } from '@/components/today-news/ai-summary-section';
 import { ReactionItemProps, ReactionSection } from '@/components/today-news/reaction-section';
-import { News, useNewsComparison } from '@/hooks/useNewsComparison';
+import { useNewsComparison } from '@/hooks/useNewsComparison';
 import { formatDateTime } from '@/utils/datetime';
 import { toast } from 'sonner';
+import { NewsDetail } from '@/hooks/useNewsDetail';
 
 type SelectedSlide = 'first' | 'second';
 
@@ -119,7 +120,7 @@ export default function DetailPage() {
 
 // NewsPage 컴포넌트의 타입 안전성 개선
 interface NewsPageProps {
-  news: News;
+  news: NewsDetail;
 }
 
 const NewsPage = ({ news }: NewsPageProps) => {

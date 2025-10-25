@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from '@/constants/api';
 import { apiClient } from '@/services/apiClient';
-import type { NewsComparison } from '@/types/news/news-comparison';
+import { NewsComparison } from '@/types/news/news-comparison';
 import type { NewsDetail } from '@/types/news/news-detail';
 import type { NewsSummary } from '@/types/news/news-summary';
 

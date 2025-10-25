@@ -6,23 +6,10 @@ import { useRouter } from 'next/navigation';
 import { Skeleton } from '@radix-ui/themes';
 import Image from 'next/image';
 import { useState } from 'react';
-
-interface TodayComparison {
-  id: string;
-  left_news_preview: {
-    title: string;
-    publisher: string;
-    thumbnail_url?: string;
-  };
-  right_news_preview: {
-    title: string;
-    publisher: string;
-    thumbnail_url?: string;
-  };
-}
+import { TodayNewsComparison } from '@/types/news/today-news-comparison';
 
 interface TodayNewsSectionProps {
-  todayComparisons?: TodayComparison;
+  todayComparisons?: TodayNewsComparison;
 }
 
 export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) => {

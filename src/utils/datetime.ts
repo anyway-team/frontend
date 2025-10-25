@@ -37,16 +37,25 @@ export const isValidDate = (date: Date | string): boolean => {
 
 export const getTimeAgo = (date: Date) => {
   const now = new Date();
-  const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
+  // 1분 미만
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}초 전`;
+  }
+
+  // 1시간 미만
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
   if (diffInMinutes < 60) {
     return `${diffInMinutes}분 전`;
   }
 
+  // 24시간 미만
   const diffInHours = Math.floor(diffInMinutes / 60);
   if (diffInHours < 24) {
     return `${diffInHours}시간 전`;
   }
 
+  // 24시간 이상은 yyyy.mm.dd 형식
   return formatDotYYYYMMDD(date);
 };

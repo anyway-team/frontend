@@ -2,8 +2,8 @@ import { NewsDetail } from './news-detail';
 
 interface NewsComparison {
   id: string;
-  left_news_preview: NewsDetail;
-  right_news_preview: NewsDetail;
+  left_news: NewsDetail;
+  right_news: NewsDetail;
 }
 
 export type { NewsComparison };
