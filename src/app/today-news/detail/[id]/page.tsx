@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Chart } from '@/components/today-news-detail/chart';
 
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { useNewsComparison } from '@/hooks/useNewsComparison';
 import { formatDateTime } from '@/utils/datetime';
 import { toast } from 'sonner';
 import { NewsDetail } from '@/hooks/useNewsDetail';
+import { trackNewsComparisonView } from '@/lib/analytics';
 
 type SelectedSlide = 'first' | 'second';
 
@@ -35,6 +36,17 @@ export default function DetailPage() {
   const [selected, setSelected] = useState<SelectedSlide>('first');
   const params = useParams<DetailPageParams>();
   const { data: newsComparison, isLoading, error } = useNewsComparison(params?.id);
+
+  // 뉴스 비교 조회 추적
+  useEffect(() => {
+    if (newsComparison && params?.id) {
+      trackNewsComparisonView({
+        comparisonId: params.id,
+        leftPublisher: newsComparison.left_news.source || 'unknown',
+        rightPublisher: newsComparison.right_news.source || 'unknown',
+      });
+    }
+  }, [newsComparison, params?.id]);
 
   // SegmentedControl 변경 시 슬라이드 이동
   const handleSegmentChange = (value: string) => {

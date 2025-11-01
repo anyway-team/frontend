@@ -8,6 +8,7 @@ import {
   getCurrentUser,
 } from '@/services/authService';
 import { clearPickStateActionAtom } from './newsPickActions';
+import { trackLoginSuccess, trackLogout } from '@/lib/analytics';
 
 // 로그인 액션
 export const loginActionAtom = atom(null, async (get, set, credentials: LoginCredentials) => {
@@ -82,6 +83,9 @@ export const kakaoCallbackActionAtom = atom(
         error: null,
       });
 
+      // GA 로그인 성공 추적
+      trackLoginSuccess(response.user.isPremium ? 'premium' : 'user');
+
       return response;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '카카오 로그인에 실패했습니다.';
@@ -99,11 +103,19 @@ export const kakaoCallbackActionAtom = atom(
 
 // 로그아웃 액션
 export const logoutActionAtom = atom(null, async (get, set) => {
+  const currentAuth = get(authAtom);
+  const userType = currentAuth.user?.isPremium ? 'premium' : 'user';
+
   try {
     await logoutService();
   } catch (error) {
     console.error('로그아웃 서비스 호출 실패:', error);
   } finally {
+    // GA 로그아웃 추적 (상태 초기화 전에 실행)
+    if (currentAuth.isAuthenticated) {
+      trackLogout(userType);
+    }
+
     // 인증 상태 초기화
     set(authAtom, {
       isAuthenticated: false,

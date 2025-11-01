@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { getTimeAgo } from '@/utils/datetime';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface NewsCardProps {
   id: string;
@@ -14,6 +15,7 @@ interface NewsCardProps {
 }
 
 const NewsCard = ({
+  id,
   title,
   publisher,
   publishedAt,
@@ -23,6 +25,19 @@ const NewsCard = ({
 }: NewsCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const { trackNewsCardClick } = useAnalytics();
+
+  const handleClick = () => {
+    // GA 이벤트 추적
+    trackNewsCardClick({
+      newsId: id,
+      title,
+      publisher,
+    });
+
+    // 기존 onClick 핸들러 실행
+    onClick?.();
+  };
 
   // 사이즈별 설정
   const sizeConfig = {
@@ -49,7 +64,7 @@ const NewsCard = ({
         padding: '8px',
         borderRadius: '8px',
       }}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
