@@ -11,6 +11,7 @@ frontend:
         - pnpm install --frozen-lockfile --prefer-offline
     build:
       commands:
+        - echo "Building with GA_ID=${NEXT_PUBLIC_GA_ID}"
         - pnpm run build
   artifacts:
     baseDirectory: .next
