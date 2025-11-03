@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { useNewsPick } from '@/hooks/useNewsPick';
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect } from 'react';
+import { trackNewsPick, trackNewsUnpick, trackNewsDetailView } from '@/lib/analytics';
 
 export default function NewsDetailPage() {
   const router = useRouter();
@@ -39,6 +40,17 @@ export default function NewsDetailPage() {
   // 로컬 상태를 우선 사용하여 즉시 UI 업데이트 반영
   const localIsPicked = isNewsPicked(newsId);
   const isPicked = localIsPicked;
+
+  // 뉴스 상세 조회 추적
+  useEffect(() => {
+    if (newsDetail) {
+      trackNewsDetailView({
+        newsId: newsId,
+        title: newsDetail.title || 'unknown',
+        publisher: newsDetail.source || 'unknown',
+      });
+    }
+  }, [newsDetail?.id, newsId]);
 
   // 뉴스 상세 데이터가 로드되면 찜 상태 동기화 (초기 로드 시에만)
   useEffect(() => {
@@ -69,8 +81,15 @@ export default function NewsDetailPage() {
       // 토글 후 상태에 따라 메시지 표시
       if (wasPickedBefore) {
         toast.success('찜 목록에서 제거되었습니다.');
+        // GA 찜 해제 추적
+        trackNewsUnpick(newsId);
       } else {
         toast.success('찜 목록에 추가되었습니다.');
+        // GA 찜하기 추적
+        trackNewsPick({
+          newsId: newsId,
+          title: newsDetail?.title || 'unknown',
+        });
       }
     } else {
       toast.error('잠시 후 다시 시도해주세요.');

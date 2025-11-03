@@ -6,6 +6,8 @@ import { Toaster } from 'sonner';
 // import MswInit from '@/components/msw-init';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthInitializer } from '@/components/auth/auth-initializer';
+import { UserPropertiesSync } from '@/components/analytics/UserPropertiesSync';
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +18,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       <Providers>
         <Theme>
           <AuthInitializer />
-          {children}
+          <UserPropertiesSync />
+          <AnalyticsProvider>{children}</AnalyticsProvider>
           <Toaster />
         </Theme>
       </Providers>
