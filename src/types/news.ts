@@ -1,3 +1,4 @@
+// deprecated
 export interface News {
   id: string;
   title: string;
@@ -9,6 +10,7 @@ export interface News {
   isSaved?: boolean;
 }
 
+// deprecated
 export interface UserStats {
   totalNewsRead: number;
   totalNewsCompared: number;

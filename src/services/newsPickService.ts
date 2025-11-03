@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from '@/constants/api';
 import { apiClient } from '@/services/apiClient';
-import { NewsResponse, NewsParams } from '@/repositories/newsRepository';
+import { NewsSummary } from '@/types/news/news-summary';
 
 export interface PickNewsRequest {
   news_id: string;
@@ -39,7 +39,11 @@ export const getPickedNewsList = async ({
   page = 0,
   size = 10,
   keyword,
-}: NewsParams): Promise<NewsResponse> => {
+}: {
+  page?: number;
+  size?: number;
+  keyword?: string;
+}): Promise<{ news: NewsSummary[] }> => {
   try {
     const requestData: { page: number; size: number; keyword?: string } = {
       page,
@@ -50,7 +54,7 @@ export const getPickedNewsList = async ({
       requestData.keyword = keyword;
     }
 
-    return await apiClient.post<NewsResponse>(API_ENDPOINTS.NEWS.PICK_LIST, requestData);
+    return await apiClient.post<{ news: NewsSummary[] }>(API_ENDPOINTS.NEWS.PICK_LIST, requestData);
   } catch (error) {
     console.error('찜한 뉴스 목록 가져오기 실패:', error);
     throw error;

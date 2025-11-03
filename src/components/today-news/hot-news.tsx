@@ -4,20 +4,12 @@ import { Section } from '../ui/section';
 import { Spacing } from '../ui/spacing';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@radix-ui/themes';
-import Image from 'next/image';
-import { useState } from 'react';
-import { formatDateTime } from '@/utils/datetime';
+import { NewsCard } from '@/components/card/news-card';
 
-interface TodayNewsItem {
-  id: string;
-  title: string;
-  published_at: string;
-  thumbnail_url: string;
-  publisher: string;
-}
+import type { NewsSummary } from '@/types/news/news-summary';
 
 interface HotNewsProps {
-  todayNews?: TodayNewsItem[];
+  todayNews?: NewsSummary[];
 }
 
 export const HotNews = ({ todayNews }: HotNewsProps) => {
@@ -75,80 +67,18 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
       }
     >
       <Spacing size={4} />
-      {todayNews.map((news: TodayNewsItem) => (
-        <HotNewsCard key={news.id} news={news} onClick={() => handleNewsClick(news.id)} />
+      {todayNews.map((news: NewsSummary) => (
+        <NewsCard
+          key={news.id}
+          id={news.id}
+          title={news.title}
+          publisher={news.publisher}
+          publishedAt={news.published_at}
+          thumbnailUrl={news.thumbnail_url}
+          onClick={() => handleNewsClick(news.id)}
+          size="medium"
+        />
       ))}
     </Section>
-  );
-};
-
-const HotNewsCard = ({ news, onClick }: { news: TodayNewsItem; onClick: () => void }) => {
-  const [imageError, setImageError] = useState(false);
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'stretch',
-        marginBottom: '12px',
-        background: '#fff',
-        minHeight: '120px',
-        gap: '12px',
-        cursor: 'pointer',
-      }}
-      onClick={onClick}
-    >
-      {/* 썸네일 이미지 */}
-      {news.thumbnail_url && !imageError ? (
-        <div style={{ width: '120px', height: '120px', borderRadius: '8px', overflow: 'hidden' }}>
-          <Image
-            src={news.thumbnail_url}
-            alt={news.title}
-            width={120}
-            height={120}
-            style={{
-              objectFit: 'cover',
-              width: '100%',
-              height: '100%',
-            }}
-            onError={() => setImageError(true)}
-            unoptimized
-          />
-        </div>
-      ) : (
-        <div
-          style={{
-            width: '120px',
-            height: '120px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#9ca3af',
-          }}
-        >
-          이미지 없음
-        </div>
-      )}
-
-      {/* 뉴스 정보 */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '8px' }}>{news.title}</div>
-        <div style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '8px' }}>
-          {news.publisher}
-        </div>
-        <div style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
-          {formatDateTime(news.published_at)}
-        </div>
-      </div>
-    </div>
   );
 };
