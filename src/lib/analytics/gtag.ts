@@ -29,6 +29,13 @@ export function pageview(url: string): void {
     return;
   }
 
+  if (typeof window.gtag !== 'function') {
+    if (DEBUG_GA) {
+      console.warn('[GA Debug] gtag not loaded yet, skipping pageview:', url);
+    }
+    return;
+  }
+
   window.gtag('config', GA_CONFIG.measurementId, {
     page_path: url,
   });
@@ -45,6 +52,13 @@ export function event(action: string, params?: Record<string, unknown>): void {
     return;
   }
 
+  if (typeof window.gtag !== 'function') {
+    if (DEBUG_GA) {
+      console.warn('[GA Debug] gtag not loaded yet, skipping event:', action);
+    }
+    return;
+  }
+
   window.gtag('event', action, params);
 }
 
@@ -55,6 +69,13 @@ export function setUserProperties(properties: Record<string, unknown>): void {
   if (!GA_CONFIG.enabled) {
     if (DEBUG_GA) {
       console.log('[GA Debug] User Properties:', properties);
+    }
+    return;
+  }
+
+  if (typeof window.gtag !== 'function') {
+    if (DEBUG_GA) {
+      console.warn('[GA Debug] gtag not loaded yet, skipping user properties');
     }
     return;
   }
