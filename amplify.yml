@@ -12,6 +12,7 @@ frontend:
     build:
       commands:
         - echo "Building with GA_ID=${NEXT_PUBLIC_GA_ID}"
+        - env | grep -e NEXT_PUBLIC_GA_ID >> .env.production
         - pnpm run build
   artifacts:
     baseDirectory: .next
