@@ -1,0 +1,53 @@
+.container {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newsCard {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.thumbnail {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  width: 100%;
+  height: 18px;
+}
+
+.titleSecond {
+  width: 75%;
+  height: 18px;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.publisher {
+  width: 60px;
+  height: 14px;
+}
+
+.date {
+  width: 80px;
+  height: 14px;
+}

@@ -23,8 +23,8 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
     router.push('/my/saved-news');
   };
 
-  const handleGoToHome = () => {
-    router.push('/');
+  const handleGoToIntroduce = () => {
+    router.push('/introduce');
   };
   return (
     <div style={{ padding: '20px' }}>
@@ -274,9 +274,9 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
       </div>
 
       {/* 하단 메뉴 */}
-      <div>
+      <div style={{ marginTop: '40px' }}>
         <div
-          onClick={handleGoToHome}
+          onClick={handleGoToIntroduce}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -286,20 +286,6 @@ export function PremiumUserMyPage({ user }: PremiumUserMyPageProps) {
             cursor: 'pointer',
           }}
         >
-          <div
-            style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              backgroundColor: '#a8b3ff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '16px',
-            }}
-          >
-            ⭐
-          </div>
           <div style={{ fontSize: '16px', fontWeight: '500', color: '#333', flex: 1 }}>
             서비스 소개 보러가기
           </div>

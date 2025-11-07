@@ -11,11 +11,12 @@ export const HomeNav = () => {
         style={{
           background: '#fff',
           width: '100%',
-          paddingTop: 16,
-          paddingBottom: 16,
+
           position: 'fixed',
           top: 0,
+          left: 0,
           zIndex: 100,
+          padding: '16px 24px',
         }}
       >
         <div style={{ maxWidth: 840, paddingRight: 16 }}>

@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { Section } from '../ui/section';
 import styles from '../common.module.css';
 import { useRouter } from 'next/navigation';
-import { Skeleton } from '@radix-ui/themes';
+
 import Image from 'next/image';
 import { useState } from 'react';
 import { TodayNewsComparison } from '@/types/news/today-news-comparison';
@@ -31,22 +31,8 @@ export const TodayNewsSection = ({ todayComparisons }: TodayNewsSectionProps) =>
   if (!hasData) {
     return (
       <Section title="오늘의 뉴스 비교" action={<></>}>
-        <div style={{ display: 'flex', gap: '12px', padding: '12px 0' }}>
-          <Skeleton
-            style={{
-              height: '126px',
-              width: '50%',
-              borderRadius: '0.5rem',
-            }}
-          />
-          <Skeleton
-            style={{
-              height: '126px',
-              width: '50%',
-              borderRadius: '0.5rem',
-            }}
-          />
-        </div>
+        AI가 오늘의 뉴스를 가져와서 분석하는 중이에요.
+        <br /> 매일 오후 1시에 업데이트 돼요.
       </Section>
     );
   }

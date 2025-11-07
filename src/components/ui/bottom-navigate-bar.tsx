@@ -28,7 +28,7 @@ export const BottomNavigateBar = () => {
         boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
       }}
     >
-      <BottomNavigateBarItem icon="/home.png" label="홈" onClick={() => router.push('/home')} />
+      <BottomNavigateBarItem icon="/home.png" label="홈" onClick={() => router.push('/')} />
       <BottomNavigateBarItem
         icon="/premium.png"
         label="프리미엄"

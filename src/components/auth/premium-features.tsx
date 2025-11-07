@@ -111,7 +111,7 @@ export function PremiumFeatures() {
       <section className={styles.sectionPlain}>
         <div className={styles.pricingSection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>간단한 가격</h2>
+            <h2 className={styles.sectionTitle}>단 하나의 선택지</h2>
             <p className={styles.sectionDescription}>복잡한 선택지 없이 하나의 프리미엄 플랜</p>
           </div>
 
@@ -189,8 +189,8 @@ export function PremiumFeatures() {
       <section className={styles.sectionPlain}>
         <div className={styles.ctaSection}>
           <h2 className={styles.ctaTitle}>
-            프리미엄으로 뉴스 분석의
-            <br />
+            프리미엄회원이 누리는 <br />
+            뉴스 분석의
             <span className={styles.titleGradient}>새로운 경험</span>
           </h2>
 

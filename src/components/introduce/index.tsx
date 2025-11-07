@@ -6,6 +6,7 @@ import { Card } from '@radix-ui/themes';
 import styles from './introduce.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
 export function NewsCompareIntro() {
   const router = useRouter();
 
@@ -35,7 +36,7 @@ export function NewsCompareIntro() {
             <Button
               className={styles.notifyButton}
               onClick={() => {
-                router.replace('/home');
+                router.replace('/');
               }}
             >
               보러가기
@@ -120,10 +121,10 @@ export function NewsCompareIntro() {
               <Button
                 className={styles.notifyButton}
                 onClick={() => {
-                  window.open('https://forms.gle/aMgoi8U9R36rWUoq5', '_blank');
+                  router.replace('/');
                 }}
               >
-                알림 받기
+                보러가기
               </Button>
             </div>
           </Card>

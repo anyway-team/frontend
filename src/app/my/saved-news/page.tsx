@@ -9,8 +9,18 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useNewsPick } from '@/hooks/useNewsPick';
 import { NewsSummary } from '@/types/news/news-summary';
+import { Spacing } from '@/components/ui/spacing';
 
 export default function SavedNewsPage() {
+  return (
+    <>
+      <Spacing size={64} />
+      <SavedNewsPageContent />
+    </>
+  );
+}
+
+function SavedNewsPageContent() {
   const router = useRouter();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { pickState } = useNewsPick(); // 찜 상태 변경 감지용

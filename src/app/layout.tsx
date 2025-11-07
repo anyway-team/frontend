@@ -6,7 +6,6 @@ import '@radix-ui/themes/styles.css';
 import { ClientLayout } from '@/app/client-layout';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { AdsScript } from '@/components/ads/AdsScript';
-import { Spacing } from '@/components/ui/spacing';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,7 +21,9 @@ export const metadata: Metadata = {
   title: '뉴비',
   description: '뉴스를 비교하고 탐색한다',
   icons: {
-    icon: '/newbee.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/newbee.png',
   },
 };
 
@@ -39,6 +40,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
         />
       </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable}`}
         style={{

@@ -18,8 +18,18 @@ import { useNewsPick } from '@/hooks/useNewsPick';
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { trackNewsPick, trackNewsUnpick, trackNewsDetailView } from '@/lib/analytics';
+import { DetailSkeleton } from '@/components/today-news-detail/detail-skeleton';
 
 export default function NewsDetailPage() {
+  return (
+    <>
+      <Spacing size={64} />
+      <NewsDetailPageContent />
+    </>
+  );
+}
+
+function NewsDetailPageContent() {
   const router = useRouter();
   const { id } = useParams();
   const {
@@ -97,11 +107,49 @@ export default function NewsDetailPage() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <NavigateBar
+          left={
+            <Button variant="ghost">
+              <Image
+                src="/back.png"
+                alt="뒤로 가기"
+                width={24}
+                height={24}
+                onClick={() => router.back()}
+              />
+            </Button>
+          }
+          right={<></>}
+        />
+        <DetailSkeleton />
+      </>
+    );
   }
 
   if (error || !newsDetail) {
-    return <div>Error: 뉴스를 불러올 수 없습니다.</div>;
+    toast.error('잠시 문제가 생겼어요. 잠시 후 다시 시도해주세요.');
+    return (
+      <>
+        <NavigateBar
+          left={
+            <Button variant="ghost">
+              <Image
+                src="/back.png"
+                alt="뒤로 가기"
+                width={24}
+                height={24}
+                onClick={() => router.back()}
+              />
+            </Button>
+          }
+          right={<></>}
+        />
+        <Spacing size={64} />
+        <DetailSkeleton />
+      </>
+    );
   }
 
   const tabContent = () => {
@@ -205,7 +253,6 @@ export default function NewsDetailPage() {
           </div>
         }
       />
-      <Spacing size={56} />
       <NewsSection
         title={newsDetail.title}
         source={newsDetail.source}

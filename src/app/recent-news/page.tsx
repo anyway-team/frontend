@@ -9,8 +9,18 @@ import { Spacing } from '@/components/ui/spacing';
 import { useNews } from '@/hooks/useNews';
 import { useDebounce } from '@/hooks/useDebounce';
 import { NewsCard } from '@/components/card/news-card';
+import { RecentNewsSkeleton } from '@/components/recent-news/recent-news-skeleton';
 
 export default function RecentNewsPage() {
+  return (
+    <>
+      <Spacing size={64} />
+      <RecentNewsPageContent />
+    </>
+  );
+}
+
+function RecentNewsPageContent() {
   const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useNews(10);
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -52,7 +62,7 @@ export default function RecentNewsPage() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <RecentNewsSkeleton />;
   }
 
   return (
@@ -71,7 +81,6 @@ export default function RecentNewsPage() {
         }
         right={null}
       />
-      <Spacing size={56} />
       <div className={styles.page}>
         {newsItems.map((item) => (
           <NewsCard

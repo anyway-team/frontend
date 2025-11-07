@@ -32,6 +32,15 @@ interface DetailPageParams {
 }
 
 export default function DetailPage() {
+  return (
+    <>
+      <Spacing size={64} />
+      <DetailPageContent />
+    </>
+  );
+}
+
+function DetailPageContent() {
   const router = useRouter();
   const splideRef = useRef<SplideRef>(null);
   const [selected, setSelected] = useState<SelectedSlide>('first');
@@ -69,16 +78,49 @@ export default function DetailPage() {
   };
 
   if (isLoading) {
-    return <DetailSkeleton />;
+    return (
+      <>
+        <NavigateBar
+          left={
+            <Button variant="ghost">
+              <Image
+                src="/back.png"
+                alt="뒤로 가기"
+                width={24}
+                height={24}
+                onClick={() => router.back()}
+              />
+            </Button>
+          }
+          right={<></>}
+        />
+        <DetailSkeleton />
+      </>
+    );
   }
 
-  if (error) {
-    console.error('News comparison fetch error:', error);
-    return <div>Error: 페이지 로딩에 실패했습니다. ({error.message})</div>;
-  }
-
-  if (!newsComparison) {
-    return <div>뉴스 비교 데이터를 찾을 수 없습니다.</div>;
+  if (error || !newsComparison) {
+    toast.error('잠시 문제가 생겼어요. 잠시 후 다시 시도해주세요.');
+    return (
+      <>
+        <NavigateBar
+          left={
+            <Button variant="ghost">
+              <Image
+                src="/back.png"
+                alt="뒤로 가기"
+                width={24}
+                height={24}
+                onClick={() => router.back()}
+              />
+            </Button>
+          }
+          right={<></>}
+        />
+        <Spacing size={64} />
+        <DetailSkeleton />
+      </>
+    );
   }
 
   return (
@@ -164,7 +206,7 @@ const NewsPage = ({ news }: NewsPageProps) => {
               conservative={news.bias_score?.conservative || 0}
             />
             <div style={{ margin: '12px 24px' }}>
-              <Text>{news.bias_score?.reason || '분석 정보가 없습니다.'}</Text>
+              <Text>{news.bias_score?.reason}</Text>
             </div>
           </>
         );

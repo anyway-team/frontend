@@ -6,8 +6,20 @@ import { useEffect } from 'react';
 import { GuestMyPage } from '@/components/my/GuestMyPage';
 import { RegularUserMyPage } from '@/components/my/RegularUserMyPage';
 import { PremiumUserMyPage } from '@/components/my/PremiumUserMyPage';
+import { Spacing } from '@/components/ui/spacing';
+import { HomeNav } from '@/components/ui/home-nav';
 
 export default function MyPage() {
+  return (
+    <>
+      <HomeNav />
+      <Spacing size={70} />
+      <MyPageContent />
+    </>
+  );
+}
+
+function MyPageContent() {
   const { isAuthenticated, user, restoreAuth, isLoading, isGuest, isRegularUser, isPremium } =
     useAuth();
 
@@ -34,10 +46,6 @@ export default function MyPage() {
   }
 
   const renderMyPageContent = () => {
-    // TODO: 테스트를 위한 임시 코드 나중에 꼭 삭제!
-    // return <RegularUserMyPage user={user} />;
-    // return <PremiumUserMyPage user={user} />;
-
     if (!isAuthenticated || isGuest) {
       return <GuestMyPage />;
     }

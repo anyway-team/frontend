@@ -1,6 +1,5 @@
 'use client';
 
-import { mockUserStats } from '@/data/mockData';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { User } from '@/types/user';
@@ -23,7 +22,7 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
     router.push('/my/saved-news');
   };
 
-  const handleGoToHome = () => {
+  const handleGoToIntroduce = () => {
     router.push('/');
   };
   return (
@@ -93,64 +92,10 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
         찜한 뉴스 보기
       </button>
 
-      {/* 통계 섹션 */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '12px',
-          marginBottom: '40px',
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            padding: '20px',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333', marginBottom: '4px' }}>
-            {mockUserStats.totalNewsRead}
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>읽은 뉴스</div>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            padding: '20px',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333', marginBottom: '4px' }}>
-            {mockUserStats.totalNewsCompared}
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>비교한 뉴스</div>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            padding: '20px',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333', marginBottom: '4px' }}>
-            {mockUserStats.favoriteNews}
-          </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>저장한 뉴스</div>
-        </div>
-      </div>
-
       {/* 하단 메뉴 */}
-      <div>
+      <div style={{ marginTop: '40px' }}>
         <div
-          onClick={handleGoToHome}
+          onClick={handleGoToIntroduce}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -160,20 +105,6 @@ export function RegularUserMyPage({ user }: RegularUserMyPageProps) {
             cursor: 'pointer',
           }}
         >
-          <div
-            style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              backgroundColor: '#a8b3ff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '16px',
-            }}
-          >
-            ⭐
-          </div>
           <div style={{ fontSize: '16px', fontWeight: '500', color: '#333', flex: 1 }}>
             서비스 소개 보러가기
           </div>

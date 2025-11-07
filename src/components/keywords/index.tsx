@@ -18,10 +18,10 @@ export const Keywords = ({ keywords }: KeywordsProps) => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
-    
+
     debounceRef.current = setTimeout(() => {
-      toast('키워드 맞춤 찾기 서비스를 준비중이에요', {
-        description: '조금만 기다려주세요!',
+      toast('키워드 맞춤 찾기 서비스는 프리미엄 회원만 이용할 수 있어요.', {
+        description: '프리미엄 회원 서비스는 조금만 기다려주세요.',
       });
     }, 300);
   };
