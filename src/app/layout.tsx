@@ -46,7 +46,6 @@ export default function RootLayout({
           margin: '0 auto',
         }}
       >
-        <Spacing size={70} />
         <Suspense fallback={null}>
           <GoogleAnalytics />
           <AdsScript />
