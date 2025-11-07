@@ -4,13 +4,28 @@ import { Badge } from '../ui/badge';
 import styles from './keyword.module.css';
 import commonStyles from '../common.module.css';
 import { Skeleton } from '@radix-ui/themes';
+import { toast } from 'sonner';
+import { useRef } from 'react';
 
 interface KeywordsProps {
   keywords?: string[];
 }
 
 export const Keywords = ({ keywords }: KeywordsProps) => {
-  // 데이터가 없을 때는 스켈레톤 표시
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleToast = () => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    
+    debounceRef.current = setTimeout(() => {
+      toast('키워드 맞춤 찾기 서비스를 준비중이에요', {
+        description: '조금만 기다려주세요!',
+      });
+    }, 300);
+  };
+
   if (!keywords) {
     return (
       <div
@@ -37,26 +52,8 @@ export const Keywords = ({ keywords }: KeywordsProps) => {
     );
   }
 
-  // 키워드 배열이 비어있을 때는 기본 메시지 표시
   if (keywords.length === 0) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 12,
-          overflowX: 'auto',
-          whiteSpace: 'nowrap',
-          padding: '16px',
-          color: '#6b7280',
-          fontSize: '0.9rem',
-        }}
-        className={styles.keywordWrapper}
-      >
-        인기 키워드를 불러올 수 없습니다
-      </div>
-    );
+    return <></>;
   }
 
   return (
@@ -83,6 +80,7 @@ export const Keywords = ({ keywords }: KeywordsProps) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          onClick={handleToast}
         >
           {keyword}
         </Badge>
