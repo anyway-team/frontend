@@ -22,6 +22,7 @@ import { formatDateTime } from '@/utils/datetime';
 import { toast } from 'sonner';
 import { NewsDetail } from '@/hooks/useNewsDetail';
 import { trackNewsComparisonView } from '@/lib/analytics';
+import { DetailSkeleton } from '@/components/today-news-detail/detail-skeleton';
 
 type SelectedSlide = 'first' | 'second';
 
@@ -68,7 +69,7 @@ export default function DetailPage() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <DetailSkeleton />;
   }
 
   if (error) {

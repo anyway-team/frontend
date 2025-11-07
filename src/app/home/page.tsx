@@ -12,7 +12,6 @@ import { Skeleton } from '@radix-ui/themes';
 export default function Home() {
   const { data: homeData, isLoading } = useHomeData();
 
-  // 전체적인 로딩 상태에서는 기본 스켈레톤 표시
   if (isLoading) {
     return (
       <div className={styles.page}>
@@ -32,6 +31,13 @@ export default function Home() {
       <HomeNav />
       <Keywords keywords={homeData?.hot_keywords} />
       <Spacing />
+      <ins
+        className="kakao_ad_area"
+        style={{ display: 'none' }}
+        data-ad-unit="DAN-NXrXtL3gqeDYAsaj"
+        data-ad-width="320"
+        data-ad-height="50"
+      ></ins>
       <TodayNewsSection todayComparisons={homeData?.today_comparisons} />
       <Spacing />
       <HotNews todayNews={homeData?.today_news} />

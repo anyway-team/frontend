@@ -32,7 +32,7 @@ export const BottomNavigateBar = () => {
       <BottomNavigateBarItem
         icon="/premium.png"
         label="프리미엄"
-        onClick={() => router.push('/recent-news')}
+        onClick={() => router.push('/premium')}
       />
       <BottomNavigateBarItem icon="/my.png" label="마이" onClick={() => router.push('/my')} />
     </ul>

@@ -22,7 +22,7 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
   // 데이터가 없을 때는 스켈레톤 표시
   if (!todayNews) {
     return (
-      <Section title="인기 뉴스" action={<></>}>
+      <Section title="최근 뉴스" action={<></>}>
         <Spacing size={4} />
         {[...Array(3)].map((_, i) => (
           <div key={i} style={{ marginBottom: 12 }}>
@@ -36,7 +36,7 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
   // 뉴스 배열이 비어있을 때는 기본 메시지 표시
   if (todayNews.length === 0) {
     return (
-      <Section title="인기 뉴스" action={<></>}>
+      <Section title="최근 뉴스" action={<></>}>
         <Spacing size={4} />
         <div
           style={{
@@ -54,7 +54,7 @@ export const HotNews = ({ todayNews }: HotNewsProps) => {
 
   return (
     <Section
-      title="인기 뉴스"
+      title="최근 뉴스"
       action={
         <Button
           variant="ghost"

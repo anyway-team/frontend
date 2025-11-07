@@ -5,6 +5,8 @@ import './globals.css';
 import '@radix-ui/themes/styles.css';
 import { ClientLayout } from '@/app/client-layout';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { AdsScript } from '@/components/ads/AdsScript';
+import { Spacing } from '@/components/ui/spacing';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,6 +21,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: '뉴비',
   description: '뉴스를 비교하고 탐색한다',
+  icons: {
+    icon: '/newbee.png',
+  },
 };
 
 export default function RootLayout({
@@ -34,10 +39,19 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable}`}
+        style={{
+          maxWidth: 840,
+          margin: '0 auto',
+        }}
+      >
+        <Spacing size={70} />
         <Suspense fallback={null}>
           <GoogleAnalytics />
+          <AdsScript />
         </Suspense>
+
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

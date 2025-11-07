@@ -18,28 +18,27 @@ export const HomeNav = () => {
           zIndex: 100,
         }}
       >
-        <div style={{ maxWidth: 1200, margin: '0 auto', paddingRight: 16 }}>
+        <div style={{ maxWidth: 840, paddingRight: 16 }}>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              height: 64,
+              height: 40,
               alignItems: 'center',
             }}
           >
             <Link href="/">
               <Image
                 src="/newbee.png"
-                width={100}
-                height={60}
+                width={60}
+                height={40}
                 alt="로고"
-                style={{ objectFit: 'contain', marginBottom: 24, marginTop: 24 }}
+                style={{ objectFit: 'contain', marginBottom: 10, marginTop: 10 }}
               />
             </Link>
           </div>
         </div>
       </nav>
-      <div style={{ height: 76 }} />
     </>
   );
 };
